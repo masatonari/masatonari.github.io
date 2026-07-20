@@ -207,6 +207,26 @@
       font-size: 0.95rem;
     }
 
+    .site-counter {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.5em;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      color: #6b8ca8;
+      font-variant-numeric: tabular-nums;
+      margin-top: 0.5rem;
+    }
+
+    .site-counter__item b {
+      font-weight: 600;
+      color: #3a6ea5;
+    }
+
+    .site-counter__sep {
+      color: #b9cbdb;
+    }
+
 
     @media (max-width: 700px) {
       .card-grid,
@@ -299,7 +319,30 @@
   </main>
 
   <footer>
-    <div class="container">まさとなり教頭</div>
+    <div class="container">
+      まさとなり教頭
+      <div class="site-counter" id="siteCounter">
+        <span class="site-counter__item">本日 <b id="counterToday">–</b></span>
+        <span class="site-counter__sep">/</span>
+        <span class="site-counter__item">累計 <b id="counterTotal">–</b></span>
+      </div>
+    </div>
   </footer>
+
+  <script>
+  (function () {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzTOh1xToLtHVhhFOypF-bKRfhmGHxTpihwKKaleSm1ZFebEd4vBn7dDrG8gziG4KtU/exec";
+    function fmt(n){ return Number(n).toLocaleString('ja-JP'); }
+    fetch(GAS_URL)
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data && typeof data.today !== 'undefined') {
+          document.getElementById('counterToday').textContent = fmt(data.today);
+          document.getElementById('counterTotal').textContent = fmt(data.total);
+        }
+      })
+      .catch(function(){ document.getElementById('siteCounter').style.display = 'none'; });
+  })();
+  </script>
 </body>
 </html>
