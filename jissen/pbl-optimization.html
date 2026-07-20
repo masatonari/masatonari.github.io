@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>技術科PBL｜学校・家庭の「困った」を最適化せよ</title>
+  <meta name="description" content="技術科PBLの実践記録。学校と家庭のなかにある小さな困りごとを、学びの視点から見つめ直す記事です。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+      line-height: 1.2;
+      margin: 0.45rem 0 0.6rem;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+    }
+
+    .back-link { margin: 0 0 0.9rem; }
+    .back-link a {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+    .back-link a:hover { background: rgba(255,255,255,0.25); }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.7rem;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    article {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      color: var(--accent);
+      margin: 1.2rem 0 0.5rem;
+      border-bottom: 2px solid var(--accent-2);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    p, li { color: var(--muted); font-size: 1rem; }
+
+    .image-block { margin: 1rem 0 1.2rem; }
+    img { width: 100%; border-radius: 16px; border: 1px solid var(--line); display: block; }
+
+    .note { margin-top: 1rem; padding: 0.95rem 1rem; border-left: 3px solid var(--accent-2); background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.12)); border-radius: 0 12px 12px 0; }
+
+    .subheading { margin: 1rem 0 0.4rem; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+
+    .pdf-button { display: inline-block; margin-top: 0.7rem; padding: 0.75rem 1rem; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-weight: 700; box-shadow: 0 10px 24px rgba(47,111,159,0.18); }
+
+    footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 700px) { .header { padding: 1.8rem 0 2.2rem; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="eyebrow">実践記録 01</div>
+      <h1>技術科PBL「学校・家庭の『困った』を最適化せよ」</h1>
+      <p class="lead">日常にある小さな困りごとを、学びの題材として捉え直し、考え、試し、伝える経験を通して、子どもたちの学びを深める実践です。</p>
+      <p class="status-badge">🔄 この実践は現在進行中です(2026年7月時点)</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <h2>背景</h2>
+      <p>正直に書くと、これまでの私の授業では、生徒は教科書の例を参考に「想像の範囲」で課題を設定していました。実際に現場を見て、誰かに話を聞いて見つけた問題ではないので、教科書とほとんど同じ課題になる。中には、まったく同じものを作る生徒もいました。当事者意識のない題材です。</p>
+      <p>原因は生徒ではなく、私自身にありました。「実習費の範囲内で、成果物は必ず家庭に持ち帰らせる」——誰に決められたわけでもないこの前提を、私は長年、見えない縛りとして自分に課していたのです。</p>
+      <p>しかし考えてみれば、困ってもいないのに無理に課題を設定させ、誰の願いでもない物を作らせることは、ものづくりの原点に反します。不要なものの製作からは、コンピテンシーベースの学びは生まれません。そこで発想を変えました。実習費は「持ち帰る物への対価」ではなく、「探究の学びそのものへの対価」である、と。</p>
+      <p>保護者から疑問の声が上がるかもしれません。そのときはこの考えを説明し、責任を果たす——そう先に整理してから、思い切って踏み出しました。実はこれは、次期学習指導要領を待つまでもなく、以前からやりたかったことでした。</p>
+      <p>なお、この転換にコストの増加は伴いません。従来と同じ実習費の範囲で実施できています。持ち帰る物がない場合があることは事前に生徒へ説明し、個人で取り組むかグループで取り組むかを選ぶ際の判断材料の一つにしています。</p>
+
+      <div class="image-block">
+        <img src="../images/pbl-hero.png" alt="技術科PBLの学びのイメージ" />
+      </div>
+
+      <h2>ねらい</h2>
+      <p>このPBLでは、子どもたちが生活や学びの場にある「困った」を発見し、改善の方向性を自分たちの言葉で整理し、説明できるようになることを目指しました。便利なものを作ることだけでなく、課題を見つける力、情報を整理する力、他者に伝える力、そして自らの判断で選ぶ力を育てることを重視しました。</p>
+
+      <h2>やったこと</h2>
+      <p>最初に、学校と家庭のどちらでも起こりうる「困った」を、子どもたち自身が自由に出し合いました。次に、似た内容をまとめ、改善の方向性を話し合いながら、アイデアを具体化しました。</p>
+      <p>学習の進め方としては、問いを立てること、情報を集めること、試しながら修正すること、他者に伝えることを大切にしました。完成形だけでなく、試行錯誤の過程そのものを学びとして扱いました。</p>
+
+      <div class="subheading">第1時：問題発見のはじまり</div>
+      <p>この授業では、まず「不便探し」から始めました。日常の中にある小さな不便を見つけ、そこから「誰が、どんな場面で、どのように困っているのか」を考えることを通して、問題発見の力を育てました。</p>
+      <p>そのあと、教室内での発問をもとに、周囲の人への「インタビュー」を行い、現状の気持ちや困りごとを言葉にする活動を組みました。最後に、見つかった課題を「願い・安全・環境・経済」という4つの視点で整理し、改善の方向性を言語化する流れにしました。</p>
+      <p>この4つの視点は、ただ便利なものを作るだけではなく、使う人の願い、安心して使えること、生活環境への配慮、無駄を減らすことを含めて、最適化の判断基準にできるようにしたものです。</p>
+      <p><a class="pdf-button" href="../docs/pbl-lesson1-slides.pdf" target="_blank" rel="noopener noreferrer">📄 第1時 導入スライドを見る（PDF）</a></p>
+
+      <div class="subheading">第2時：改善案をつくる</div>
+      <p>第2時では、見つけた課題をもとに、どのような改善案が考えられるかを班ごとに整理しました。アイデアを出し合い、実現の可能性を確認しながら、課題の解決に向けた構想を練る時間にしています。</p>
+      <p><a class="pdf-button" href="../docs/pbl-lesson2-slides.pdf" target="_blank" rel="noopener noreferrer">📄 第2時 導入スライドを見る（PDF）</a></p>
+
+      <h2>ここまでの経過</h2>
+      <p>授業を進める中で、子どもたちの姿に変化が見え始めました。従来のように「与えられた課題を解く」受け身の学習者ではなく、生活の中から改善したいことを見つけ出し、自分たちの言葉で問いを立てる存在へと変わっていきました。</p>
+      <p>家庭にも学びを広げる子どもも増えました。学校の中だけで終わるのではなく、家の中でも「困っていることはないか」と考え、身近な場面を見直す学びへと拡張していきました。</p>
+      <blockquote class="note">「あまり目に入らないところを意識すると、複数の課題が見つかった」<br><span style="font-size:0.9rem; color:var(--muted);">（生徒の振り返りより）</span></blockquote>
+      <p>また、構想を整理する場面では、生成AIを思考の壁打ち相手として活用し、アイデアを言葉にしていく姿も見られました。</p>
+
+      <h2>これから</h2>
+      <p>次の段階では、設計の過程をより深めたいと考えています。改善案を具体化し、試作品だけでなく、使う場面を想定した設計を行い、検証の視点を持って進めることを重視します。</p>
+      <p>そのために、3Dプリントを使った検証も組み込み、試作の精度や使い勝手を確認しながら、学びをさらに実感できる形にしていきます。さらに、教頭として自ら率先垂範し、職員にもこの考え方を広げていきたい。小さな実践を積み重ねることで、学校全体の学びの質を少しずつ変えていきたいと考えています。</p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>

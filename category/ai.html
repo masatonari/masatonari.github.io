@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生成AI・情報活用の歩み</title>
+  <meta name="description" content="生成AIとの学びや情報活用の記録を集めたカテゴリーページです。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: clamp(2rem, 4vw, 3.2rem) 0 2.2rem;
+    }
+
+    .brand {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .hero {
+      padding-top: 1.2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4.4vw, 3rem);
+      line-height: 1.12;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: clamp(1rem, 2.3vw, 1.12rem);
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .back-link {
+      margin: 0 0 0.8rem;
+    }
+
+    .back-link a {
+      display: inline-block;
+      padding: 0.5rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.25rem, 2.5vw, 1.8rem);
+      margin-bottom: 1.1rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #ffffff 0%, #f4fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(22, 50, 79, 0.10);
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin: 0 0 0.35rem;
+      color: var(--text);
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 0 0 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="brand">Category</div>
+      <div class="hero">
+        <h1>生成AI・情報活用の歩み</h1>
+        <p class="lead">生成AIとの学びや情報活用の記録を集めたページです。</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <a href="../jissen/jissei-ai.html" class="card" style="display:block;">
+        <h2>生成AIとの歩み ～『期待されない担当』から始まった学び～</h2>
+        <p>生成AIとの学びを通して、現場での自動化と探究の経験をまとめた実践記録です。</p>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>

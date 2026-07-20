@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>まさとなり教頭｜教育観を発信するサイト</title>
+  <meta name="description" content="東北の公立中学校の教頭として、教育観と実践を綴る個人サイトです。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: clamp(2rem, 4vw, 3.2rem) 0 2.2rem;
+    }
+
+    .brand {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .hero {
+      padding-top: 1.2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5.4vw, 4rem);
+      line-height: 1.08;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      margin-top: 0.2rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: clamp(1rem, 2.3vw, 1.12rem);
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .hero-quote {
+      display: inline-block;
+      margin-top: 0.4rem;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.14);
+      border-radius: 0 10px 10px 0;
+      font-weight: 600;
+      max-width: 600px;
+    }
+
+    .main-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.2rem;
+    }
+
+    .main-nav a {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.6rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    main {
+      padding: 1.2rem 0 3rem;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.25rem, 2.5vw, 1.8rem);
+      margin-bottom: 1.1rem;
+    }
+
+    section h2 {
+      margin: 0 0 0.7rem;
+      font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+      color: var(--accent);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+      border-bottom: 3px solid var(--accent-2);
+    }
+
+    section p,
+    section li {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 0.8rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #ffffff 0%, #f4fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .card h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .statement-block {
+      margin-top: 0.8rem;
+      padding: 1rem 1.1rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.14));
+      border: 1px solid var(--line);
+    }
+
+    .statement-line {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .practice-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 1rem;
+    }
+
+    .practice-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f5fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .practice-card strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin: 0.7rem 0 0;
+    }
+
+    .small {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 0 0 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+
+    @media (max-width: 700px) {
+      .card-grid,
+      .practice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand">Personal Note</div>
+      <div class="hero">
+        <div class="eyebrow">東北のある公立中学校教頭（技術科教員）の個人記録</div>
+        <h1>まさに、<span>となりに立つ。</span></h1>
+        <p class="lead">子ども、教師、そして学びの場に寄り添いながら、静かにでも確かに変化をつくっていく。教育の現場に必要なことを、言葉と実践で積み上げていきます。</p>
+        <div class="hero-quote">「学びの場に、静かにでも確かに変化をつくる。」</div>
+        <nav class="main-nav" aria-label="ページ内メニュー">
+          <a href="#top">トップ</a>
+          <a href="#philosophy">教育観</a>
+          <a href="#practice">実践記録</a>
+          <a href="#about">このサイトについて</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="top">
+      <h2>トップ</h2>
+      <p>このサイトは、「となりに立つ」ことを理念とし、教職員・子ども・保護者の間に、安心して声を交わせる関係をつくるための記録です。すぐに答えを出すより、問いを深め、試しながら少しずつ前に進む姿勢を大切にしています。</p>
+      <div class="statement-block">
+        <p class="statement-line">「答えをすぐに渡すより、問いを深める。」</p>
+        <p>学校の中にある小さな変化を、静かな言葉と丁寧な実践で積み上げていきたいと思っています。</p>
+      </div>
+    </section>
+
+    <section id="philosophy">
+      <h2>教育観</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>自立した学習者</h3>
+          <p>知識を覚えるだけでなく、自ら問いを見つけ、情報を比較し、考えを持って行動する力を育てたいと思っています。</p>
+        </article>
+        <article class="card">
+          <h3>情報活用能力</h3>
+          <p>生成AIをはじめとする道具を使いこなし、必要な情報を取り出し、整理し、問いの深まりにつなげる力を大切にしています。</p>
+        </article>
+        <article class="card">
+          <h3>共に育てる学び</h3>
+          <p>教師が上から示すのではなく、互いに悩み、試し、支え合いながら進める姿勢が、学校の変化を支えると考えています。</p>
+        </article>
+        <article class="card">
+          <h3>一緒にやりましょう</h3>
+          <p>変化は一人では難しくても、少しずつ始めて、現場に根ざした方法を一緒に作っていくことで、自然に広がっていきます。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="practice">
+      <h2>実践記録</h2>
+      <p>日々の実践では、教育DXの入口を機器の操作だけに置かず、授業づくりや学校運営の見直しに結びつけることを意識しています。ここでは、いくつかの実践の入口をカテゴリーごとにまとめています。</p>
+      <div class="practice-grid">
+        <a href="category/gijutsu.html" class="practice-card" style="display:block;">
+          <strong>技術科の実践</strong>
+          <p>技術とものづくりを通した学びの記録</p>
+        </a>
+        <a href="category/komu-dx.html" class="practice-card" style="display:block;">
+          <strong>校務DXの実践</strong>
+          <p>校務の効率化とデジタル化の記録。準備中</p>
+        </a>
+        <a href="category/ai.html" class="practice-card" style="display:block;">
+          <strong>生成AI・情報活用の歩み</strong>
+          <p>生成AIとの学びと情報活用の記録</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>このサイトについて</h2>
+      <p>このサイトは、個人の考えや実践の記録を、匿名性を保ったままゆっくりと発信するためのものです。学校名や地域名、個人名は明かさず、教育に関する思いと試行を中心に綴っています。</p>
+      <p class="small">発信の目的は、静かにつながり、小さな渦から大きな渦へと広がるような変革を、少しずつ実現していくことです。</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>

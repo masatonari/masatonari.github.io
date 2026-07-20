@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PTA活動を、もっとラクに。GASではじめる校務の自動化</title>
+  <meta name="description" content="月例集計から文化祭の注文アプリまで、GASを使った校務自動化の実践記録です。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+      line-height: 1.2;
+      margin: 0.45rem 0 0.6rem;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+    }
+
+    .back-link { margin: 0 0 0.9rem; }
+    .back-link a {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+    .back-link a:hover { background: rgba(255,255,255,0.25); }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.7rem;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    article {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      color: var(--accent);
+      margin: 1.2rem 0 0.5rem;
+      border-bottom: 2px solid var(--accent-2);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    p, li { color: var(--muted); font-size: 1rem; }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-left: 3px solid var(--accent-2);
+      background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.12));
+      border-radius: 0 12px 12px 0;
+    }
+
+    footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 700px) {
+      .header { padding: 1.8rem 0 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="eyebrow">実践記録 02</div>
+      <h1>PTA活動を、もっとラクに。<br>GASではじめる校務の自動化</h1>
+      <p class="lead">月例集計から、文化祭の注文アプリまで</p>
+      <p class="status-badge">🔧 現在も改良中です</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <h2>「どこまで簡素化できるか」から始まった</h2>
+      <p>PTA活動や学校の校務で、毎月のように繰り返される単純な作業があります。月例報告の出欠確認、イベント時の注文や集計、メール対応——これらの作業は、本来なら自動化できるはずなのに、手作業で処理されていることが多いです。</p>
+      <p>「どこまで簡素化できるか」——その問いを立てたのが、自動化への第一歩でした。</p>
+
+      <h2>小さな一歩：月例報告の自動集計</h2>
+      <p>最初に手をつけたのは、月例報告の出欠データでした。もともと手作業だった月例報告用のデータを、Google Apps Script（GAS）で自動集計するようにしました。毎月のデータ入力と同時に、日別の出席人数グラフやクラス別の出席回数といった統計情報が、自動で出力されるようになりました。</p>
+      <p>これにより、集計ミスもなくなり、業務の負担が大きく減りました。小さなことから始めることで、「これならできるかもしれない」という感覚が生まれました。</p>
+      <div style="margin:1rem 0 1.2rem;">
+        <img src="../images/komu-dx-01-monthly.jpg" alt="月例報告用のデータを自動集計" style="width:100%; height:auto; border-radius:16px; border:1px solid var(--line); display:block;" />
+        <div style="margin-top:0.45rem; font-size:0.85rem; color:var(--muted); text-align:center;">月例報告用のデータを自動集計。毎月の手作業が大幅に減った。</div>
+      </div>
+
+      <h2>大きな挑戦：文化祭の注文アプリ</h2>
+      <p>次の挑戦は、文化祭のPTA主催の昼食注文システムでした。Googleフォームでも用は足りましたが、実際のネット注文のようななじみのある形にしたくてアプリ化に踏み切りました。</p>
+      <p>Googleフォームだけの場合より、ユーザー体験が格段に改善され、注文者も集計担当者も、ストレスなく業務に当たることができるようになりました。</p>
+      <div style="margin:1rem 0 1.2rem;">
+        <img src="../images/komu-dx-02-order-app.jpg" alt="フォームから注文、集計まで自動化" style="width:100%; height:auto; border-radius:16px; border:1px solid var(--line); display:block;" />
+        <div style="margin-top:0.45rem; font-size:0.85rem; color:var(--muted); text-align:center;">フォームから注文、集計まで自動化。注文画面は実際のEコマースのような見た目。</div>
+      </div>
+
+      <h2>「できるか分からない」から「できる」へ</h2>
+      <p>注文システムで最も難しかったのが、注文者へ自動返信メール（アンサーバック）を送る機能です。当初、本当にできるのか分からず、実装を躊躇していました。しかし、生成AIと対話しながら実現方法を探っていくうちに、その障壁は次々と解けていきました。</p>
+      <p>気づくと、全く新しい仕組みが形になっていました。生成AIとの対話のおかげで、「できるか分からない」ことも、一つ一つ問題を解いていくことで、確実に「できる」に変わるのだということを実感しました。</p>
+      <div style="margin:1rem 0 1.2rem;">
+        <img src="../images/komu-dx-03-answerback.jpg" alt="注文者へ自動で届く注文控えメール" style="width:100%; height:auto; border-radius:16px; border:1px solid var(--line); display:block;" />
+        <div style="margin-top:0.45rem; font-size:0.85rem; color:var(--muted); text-align:center;">注文者へ自動で届く注文控えメール。実装の工夫で読み込み速度も最適化した。</div>
+      </div>
+
+      <h2>最大の課題は、いつも技術ではなく</h2>
+      <p>実装する過程で最も苦労したのは、実は想像していた「複雑なコード」ではなく、「スマホでも商品写真が見えるように解像度を落としつつ、読み込みをできるだけ速くする」といった、ユーザー体験に関わる細部でした。</p>
+      <p>こうした調整こそが、実務的な自動化を本当に使えるものにしていくのだということを改めて感じました。</p>
+
+      <h2>成果：集計ミスはゼロ</h2>
+      <p>これらの自動化により、集計エラーは完全になくなりました。同時に、集計を担当する職員の業務量も大きく減り、その時間を他の業務に充てることができるようになりました。</p>
+      <p>学校という組織の中で、「本当は時間がかかりすぎていた仕事」が、一つ一つ解決されていく——その小さな積み重ねが、気づくと大きな変化になっていました。</p>
+
+      <h2>まとめ：「小さく始める」が最も強い</h2>
+      <p>「できるか分からない」と思っていたことも、生成AIと対話しながら形にできる時代です。だからこそ、最も大切なのは、最初から完璧を目指さないこと——小さなところから始めることです。</p>
+      <p>月例集計のような小さな自動化で成功体験を積むことで、次の挑戦へのハードルが下がります。そして、それが段階的に広がっていくことで、学校全体の業務改善が進んでいくのだと考えています。</p>
+      <p>もし、「これも自動化できるんじゃないか」と感じる業務があれば、ぜひ試してみてください。小さな一歩が、確実な変化をもたらします。</p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>

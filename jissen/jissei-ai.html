@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生成AIとの歩み｜『期待されない担当』から始まった学び</title>
+  <meta name="description" content="生成AIとの学びを通して、教育現場での自動化と探究の歩みを綴る実践記録です。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+      line-height: 1.2;
+      margin: 0.45rem 0 0.6rem;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+    }
+
+    .back-link { margin: 0 0 0.9rem; }
+    .back-link a {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+    .back-link a:hover { background: rgba(255,255,255,0.25); }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.7rem;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    article {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      color: var(--accent);
+      margin: 1.2rem 0 0.5rem;
+      border-bottom: 2px solid var(--accent-2);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    p, li { color: var(--muted); font-size: 1rem; }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-left: 3px solid var(--accent-2);
+      background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.12));
+      border-radius: 0 12px 12px 0;
+    }
+
+    footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 700px) {
+      .header { padding: 1.8rem 0 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="eyebrow">実践記録 01</div>
+      <h1>生成AIとの歩み<br>～『期待されない担当』から始まった学び～</h1>
+      <p class="lead">生成AIを使い始めた頃の試行錯誤から、校内普及、全国への発信、そして今の学びの広がりまでをまとめた実践記録です。</p>
+      <p class="status-badge">🔄 学びは現在進行形です</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <h2>はじまり</h2>
+      <p>前任校（東北の公立中学校）で、国のDX関連事業の指定校・生成AIの先行活用校として生成AI担当を任されたことが始まりでした。正直に言えば、当初はあまり期待されていなかった役回りだったように思います。しかも、当時の自分は、どう学べばよいのかも分からないまま、その役目を引き受けた状態でした。</p>
+      <p>そのことを知ったのは、ずっと後のことでした。全国の舞台を終え、私も校長も異動が決まった頃、校長からこう打ち明けられたのです。『初めはDX推進がメインで、生成AIがここまで広がるとは思っていなかった。正直、あまり期待していなかったんだ』と。期待されない付け足しのような担当——それが出発点だったと、そのとき初めて知りました。</p>
+      <!-- 写真挿入予定 -->
+
+      <h2>独学の日々</h2>
+      <p>生成AIを使い始めた黎明期は、今よりもハルシネーションが大きく、精度も低い時代でした。それでも、可能性を感じることはありました。そこで、独学で学び続けました。</p>
+      <p>学びながら、ITパスポートと生成AIパスポートを取得し、校内ではその知識を生かして、先生方に対して使い方の共有や相談の場を作るよう努めました。</p>
+      <div style="display:flex; justify-content:center; align-items:flex-start; gap:1rem; flex-wrap:wrap; margin:1rem 0 1.2rem;">
+        <div style="text-align:center; max-width:150px;">
+          <img src="../images/badge-dx.png" alt="DX推進パスポート" style="width:120px; height:auto; display:block; margin:0 auto;" />
+          <div style="margin-top:0.4rem; font-size:0.85rem; color:var(--muted);">DX推進パスポート（Di-Lite）</div>
+        </div>
+        <div style="text-align:center; max-width:150px;">
+          <img src="../images/badge-ai.png" alt="生成AIパスポート" style="width:120px; height:auto; display:block; margin:0 auto;" />
+          <div style="margin-top:0.4rem; font-size:0.85rem; color:var(--muted);">生成AIパスポート</div>
+        </div>
+      </div>
+
+      <h2>最初の成功体験</h2>
+      <p>出発点は、スプレッドシートの同じシートを30枚自動コピーするだけの、ごく小さなGASでした。最初はそれすら、何をすればよいのか分からない状態だったのですが、無料講座で仕組みを独学し、あとは生成AIと対話しながらコードを整えていくことができました。</p>
+      <p>それができるようになると、次は自動集計へ、と一段ずつ階段を上るように世界が広がっていきました。作業の手順を少しずつ自動化していくうちに、「これは自分でもできる」という感覚が、日々、確実に育っていきました。</p>
+      <p>そして、デジタル行事黒板にAPIでWBGT（暑さ指数）を自動表示できたとき、それは大きなターニングポイントになりました。プログラミングの専門家でなくても、生成AIと対話すれば、現場の課題を自分の手で自動化できる——その可能性を、体で理解した瞬間でした。</p>
+      <div style="margin:1rem 0 1.2rem;">
+        <img src="../images/wbgt-board.png" alt="GASとAPIで自動表示したWBGT（暑さ指数）" style="width:100%; height:auto; border-radius:16px; border:1px solid var(--line); display:block;" />
+        <div style="margin-top:0.45rem; font-size:0.85rem; color:var(--muted); text-align:center;">GASとAPIで自動表示したWBGT（暑さ指数）。数値は10分ごとに自動で取得・計算される。</div>
+      </div>
+
+      <h2>全国へ</h2>
+      <p>実践が全国向けの教育専門誌に取り上げられ、国主催の全国フォーラムに実践者代表として登壇する機会を得ました。その中で一貫して掲げたのは、「どの学校でも実現可能な取り組みを」という考え方でした。</p>
+      <p>発信の場が広がるほど、自分の取り組みを一人で完結させるのではなく、他の学校や現場の人に伝え、広げていくことの意味が強く感じられました。</p>
+      <!-- 写真挿入予定 -->
+
+      <h2>化石という気づき</h2>
+      <p>正直に言えば、当時は最先端だと思っていたあの取り組みも、今となっては化石のようなものです。生成AIの進化はそれほど速い。だからこそ私は、「生成AIの取り組みは、常にアップデートし続けなければならない」と考えるようになりました。</p>
+      <p>この実感は、その後教頭として次期学習指導要領の「学び続ける自立した学習者」という理念に深く共感する大きな理由になりました。</p>
+      <!-- 写真挿入予定 -->
+
+      <h2>そして、今</h2>
+      <p>その学びは今も続いています。かつてのGASによる自動化は、今ではClaude CodeやVS Codeを使ったWebサイト構築へと発展しています。まさに、このサイト自体がその歩みの最新章です。</p>
+      <p>これからは、教育に特化したAIエージェントの構築にも挑戦していきたいと考えています。学びを止めず、現場とつながりながら、さらに実践を深めていきたいです。</p>
+      <div style="margin:1rem 0 1.2rem;">
+        <img src="../images/vscode-now.png" alt="Claude Code と VS Code でこのサイトを制作している画面" style="width:100%; height:auto; border-radius:16px; border:1px solid var(--line); display:block;" />
+        <div style="margin-top:0.45rem; font-size:0.85rem; color:var(--muted); text-align:center;">Claude Code と VS Code でこのサイトを制作している画面。GASでの自動化から地続きの学びが続いている。</div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>
