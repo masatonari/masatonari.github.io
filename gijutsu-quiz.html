@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技術科 学習確認クイズ</title>
+<style>
+  :root{
+    --bg:#f5f1e6;
+    --dot: rgba(0,0,0,0.07);
+    --card:#ffffff;
+    --text:#1c2530;
+    --sub:#6b7280;
+    --accent:#2f7d4f;
+    --accent-dark:#245f3d;
+    --pill-bg:#eef0ec;
+    --dark-card:#1c1c1c;
+    --dark-card-text:#ffffff;
+    --correct:#2e7d32;
+    --correct-bg:#e6f4ea;
+    --wrong:#c62828;
+    --wrong-bg:#fbe9e7;
+    --border:#e4e0d2;
+    --shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#17181a;
+      --dot: rgba(255,255,255,0.06);
+      --card:#232527;
+      --text:#eef2f5;
+      --sub:#9aa3ab;
+      --accent:#4fb37a;
+      --accent-dark:#3c8f5d;
+      --pill-bg:#2c2f31;
+      --dark-card:#0d0d0d;
+      --dark-card-text:#ffffff;
+      --correct:#66bb6a;
+      --correct-bg:#1e3324;
+      --wrong:#ef5350;
+      --wrong-bg:#3a2222;
+      --border:#33363a;
+      --shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    background-color:var(--bg);
+    background-image: radial-gradient(var(--dot) 1.4px, transparent 1.4px);
+    background-size: 22px 22px;
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:24px 12px 60px;
+  }
+  .app{ width:100%; max-width:640px; }
+  header{ text-align:center; margin-bottom:18px; }
+  header h1{ font-size:1.35rem; margin:0 0 4px; }
+  header p{ color:var(--sub); font-size:0.88rem; margin:0; }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--sub);
+    font-size:0.9rem;
+    cursor:pointer;
+    margin-bottom:14px;
+    user-select:none;
+  }
+  .back-link:hover{ color:var(--accent); }
+
+  .list-card{
+    background:var(--card);
+    border:1.5px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:20px 22px;
+    margin-bottom:14px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    transition:border-color .15s, transform .1s;
+  }
+  .list-card:hover{ border-color:var(--accent); }
+  .list-card:active{ transform:scale(0.99); }
+  .list-card .info{ flex:1; min-width:0; }
+  .list-card .badge-label{
+    color:var(--accent);
+    font-weight:700;
+    font-size:0.78rem;
+    margin-bottom:6px;
+  }
+  .list-card .title{
+    font-weight:800;
+    font-size:1.08rem;
+    margin-bottom:4px;
+    color:var(--text);
+  }
+  .list-card .desc{
+    color:var(--sub);
+    font-size:0.83rem;
+    line-height:1.5;
+  }
+  .count-pill{
+    flex-shrink:0;
+    background:var(--pill-bg);
+    color:var(--text);
+    font-weight:700;
+    font-size:0.85rem;
+    padding:8px 16px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+
+  .dark-card{
+    background:var(--dark-card);
+    color:var(--dark-card-text);
+    border-radius:16px;
+    padding:22px 24px;
+    margin-top:8px;
+    margin-bottom:14px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:var(--shadow);
+    transition:opacity .15s, transform .1s;
+  }
+  .dark-card:hover{ opacity:0.9; }
+  .dark-card:active{ transform:scale(0.99); }
+  .dark-card .title{ font-weight:800; font-size:1.1rem; margin-bottom:2px; }
+  .dark-card .sub{ font-size:0.85rem; opacity:0.75; }
+  .dark-card .arrow{ font-size:1.4rem; margin-left:12px; }
+
+  .note{
+    text-align:center;
+    color:var(--sub);
+    font-size:0.82rem;
+    margin-top:18px;
+    line-height:1.6;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    margin-bottom:16px;
+  }
+
+  .quiz-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px;
+  }
+  .quiz-cancel{
+    color:var(--sub);
+    font-size:0.85rem;
+    cursor:pointer;
+    user-select:none;
+  }
+  .quiz-cancel:hover{ color:var(--wrong); }
+
+  .progress-wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    font-size:0.85rem;
+    color:var(--sub);
+  }
+  .bar-bg{
+    height:8px;
+    background:var(--border);
+    border-radius:4px;
+    overflow:hidden;
+    margin-bottom:18px;
+  }
+  .bar-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:4px;
+    transition:width .25s ease;
+  }
+  .badge{
+    display:inline-block;
+    font-size:0.72rem;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:999px;
+    background:var(--accent);
+    color:#fff;
+    margin-bottom:12px;
+    letter-spacing:0.02em;
+  }
+  .question-text{
+    font-size:1.06rem;
+    font-weight:600;
+    line-height:1.6;
+    margin-bottom:18px;
+    white-space:pre-wrap;
+  }
+  .choice-btn{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:var(--bg);
+    border:1.5px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    font-size:0.97rem;
+    cursor:pointer;
+    color:var(--text);
+    line-height:1.5;
+    transition:border-color .12s, background .12s;
+  }
+  .choice-btn:hover:not(:disabled){ border-color:var(--accent); }
+  .choice-btn:disabled{ cursor:default; }
+  .choice-btn.correct{ background:var(--correct-bg); border-color:var(--correct); color:var(--correct); font-weight:700; }
+  .choice-btn.wrong{ background:var(--wrong-bg); border-color:var(--wrong); color:var(--wrong); font-weight:700; }
+  .choice-label{ display:inline-block; width:22px; font-weight:700; color:var(--sub); }
+
+  .feedback{
+    margin-top:8px;
+    padding:16px;
+    border-radius:12px;
+    background:var(--bg);
+    border:1.5px solid var(--border);
+    display:none;
+  }
+  .feedback.show{ display:block; }
+  .feedback .verdict{ font-weight:700; margin-bottom:6px; font-size:0.95rem; }
+  .feedback .verdict.ok{ color:var(--correct); }
+  .feedback .verdict.ng{ color:var(--wrong); }
+  .feedback .explain{ font-size:0.9rem; line-height:1.6; color:var(--text); }
+
+  .next-btn, .primary-btn{
+    display:block; width:100%; margin-top:16px;
+    background:var(--accent); color:#fff; border:none;
+    border-radius:12px; padding:14px; font-size:1rem; font-weight:700; cursor:pointer;
+  }
+  .next-btn:hover, .primary-btn:hover{ background:var(--accent-dark); }
+  .secondary-btn{
+    display:block; width:100%; margin-top:10px;
+    background:transparent; color:var(--accent);
+    border:1.5px solid var(--accent); border-radius:12px;
+    padding:12px; font-size:0.95rem; font-weight:700; cursor:pointer;
+  }
+
+  .result-score{ text-align:center; margin-bottom:8px; }
+  .result-score .num{ font-size:2.6rem; font-weight:800; color:var(--accent); }
+  .result-score .label{ color:var(--sub); font-size:0.9rem; }
+  .rate-bar-bg{ height:14px; background:var(--border); border-radius:7px; overflow:hidden; margin:14px 0 20px; }
+  .rate-bar-fill{ height:100%; background:var(--accent); }
+
+  .review-item{ border-top:1px solid var(--border); padding:14px 0; }
+  .review-item:first-child{ border-top:none; }
+  .review-q{ font-weight:600; margin-bottom:6px; font-size:0.95rem; }
+  .review-answers{ font-size:0.85rem; margin-bottom:6px; }
+  .review-answers .your{ color:var(--wrong); }
+  .review-answers .ans{ color:var(--correct); }
+  .review-explain{ font-size:0.85rem; color:var(--sub); line-height:1.6; }
+
+  .hidden{ display:none !important; }
+  footer{ text-align:center; color:var(--sub); font-size:0.75rem; margin-top:20px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>技術科 学習確認クイズ</h1>
+    <p>材料の性質／学校・家庭の不便を最適化せよ！</p>
+  </header>
+
+  <!-- 章の選択 -->
+  <div id="screen-top">
+    <div class="list-card" data-goto="ch1sub">
+      <div class="info">
+        <div class="badge-label">第1章</div>
+        <div class="title">幼稚園のベンチと材料</div>
+        <div class="desc">木材・金属・プラスチックの性質と加工方法</div>
+      </div>
+      <div class="count-pill">33問</div>
+    </div>
+    <div class="list-card" data-goto="ch2sub">
+      <div class="info">
+        <div class="badge-label">第2章</div>
+        <div class="title">学校・家庭の不便を最適化せよ</div>
+        <div class="desc">願い・安全・環境・経済の4つの視点（1〜9時間目）</div>
+      </div>
+      <div class="count-pill">11問</div>
+    </div>
+    <div class="dark-card" data-start="all">
+      <div>
+        <div class="title">実力テスト　全問通し</div>
+        <div class="sub">第1章・第2章から全44問をランダム出題</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="note">この確認テストは1学期期末考査の範囲（第1章すべて＋第2章1〜9時間目）に対応しています。</div>
+  </div>
+
+  <!-- 第1章：セクション選択 -->
+  <div id="screen-ch1sub" class="hidden">
+    <div class="back-link" data-goto="top">← 章の選択にもどる</div>
+    <div class="list-card" data-start="ch1-basic">
+      <div class="info">
+        <div class="badge-label">課題①②</div>
+        <div class="title">材料の性質と加工方法</div>
+        <div class="desc">木材・金属・プラスチックの基本的な分類と特徴</div>
+      </div>
+      <div class="count-pill">5問</div>
+    </div>
+    <div class="list-card" data-start="ch1-detail">
+      <div class="info">
+        <div class="badge-label">エキスパート活動のまとめ</div>
+        <div class="title">木材・金属・プラスチックの詳しい特徴</div>
+        <div class="desc">構造・性質・加工技術のくわしい内容</div>
+      </div>
+      <div class="count-pill">23問</div>
+    </div>
+    <div class="list-card" data-start="ch1-process">
+      <div class="info">
+        <div class="badge-label">課題③〜最終課題</div>
+        <div class="title">探究の進め方</div>
+        <div class="desc">エキスパート活動・ジグソー活動・発表</div>
+      </div>
+      <div class="count-pill">5問</div>
+    </div>
+    <div class="dark-card" data-start="ch1-all">
+      <div>
+        <div class="title">第1章　全問通し</div>
+        <div class="sub">（全33問）</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="note">この章は1学期期末考査の範囲（第1章すべて）に対応しています。</div>
+  </div>
+
+  <!-- 第2章：セクション選択 -->
+  <div id="screen-ch2sub" class="hidden">
+    <div class="back-link" data-goto="top">← 章の選択にもどる</div>
+    <div class="list-card" data-start="ch2-a">
+      <div class="info">
+        <div class="badge-label">1〜3時間目</div>
+        <div class="title">問題発見フェーズ</div>
+        <div class="desc">「不便」の調査・課題文の作り方・生成AIとの対話</div>
+      </div>
+      <div class="count-pill">5問</div>
+    </div>
+    <div class="list-card" data-start="ch2-b">
+      <div class="info">
+        <div class="badge-label">プロジェクト全体</div>
+        <div class="title">4つの視点と評価・設計フェーズ</div>
+        <div class="desc">願い・安全・環境・経済／評価の3本柱／設計・試作の基礎</div>
+      </div>
+      <div class="count-pill">6問</div>
+    </div>
+    <div class="dark-card" data-start="ch2-all">
+      <div>
+        <div class="title">第2章　全問通し</div>
+        <div class="sub">（全11問）</div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="note">この章は1学期期末考査の範囲（第2章1〜9時間目）に対応しています。</div>
+  </div>
+
+  <!-- クイズ画面 -->
+  <div id="screen-quiz" class="card hidden">
+    <div class="quiz-topbar">
+      <span class="quiz-cancel" id="cancel-btn">✕ やめて戻る</span>
+      <span id="score-label"></span>
+    </div>
+    <div class="progress-wrap">
+      <span id="progress-label"></span>
+    </div>
+    <div class="bar-bg"><div id="bar-fill" class="bar-fill" style="width:0%"></div></div>
+    <div id="section-badge" class="badge"></div>
+    <div id="question-text" class="question-text"></div>
+    <div id="choices"></div>
+    <div id="feedback" class="feedback">
+      <div id="verdict" class="verdict"></div>
+      <div id="explain" class="explain"></div>
+    </div>
+    <button id="next-btn" class="next-btn hidden">次の問題へ</button>
+  </div>
+
+  <!-- 結果画面 -->
+  <div id="screen-result" class="card hidden">
+    <div class="result-score">
+      <div class="num" id="result-num"></div>
+      <div class="label" id="result-label"></div>
+    </div>
+    <div class="rate-bar-bg"><div id="rate-fill" class="rate-bar-fill" style="width:0%"></div></div>
+    <button id="retry-btn" class="primary-btn">同じセクションでもう一度</button>
+    <button id="menu-btn" class="secondary-btn">セクション選択にもどる</button>
+    <div id="review-list"></div>
+  </div>
+
+  <footer>全問4択形式・即時採点／解説つき</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ==============================
+  // 第1章：課題①②（基礎・5問）
+  // ==============================
+  var CH1_BASIC = [
+    { chapter:1, q:"木材を大きく2つに分類すると、どのような分け方になるか。", choices:[
+        "針葉樹と広葉樹","軟材と硬材のみ","天然木材と人工木材のみ","早生樹と晩生樹"
+      ], answer:0, explain:"木材は大きく針葉樹（軽く加工しやすい種類が多い）と広葉樹（重く硬い種類が多い）に分類される。" },
+    { chapter:1, q:"針葉樹（スギ・ヒノキ・マツなど）の一般的な特徴として正しいものはどれか。", choices:[
+        "非常に硬く重いものが多い","軽くて加工がしやすいものが多い","年輪がまったく見えない","すべて腐りにくい特殊な樹種である"
+      ], answer:1, explain:"針葉樹は一般に軽く柔らかいものが多く、加工がしやすい。" },
+    { chapter:1, q:"金属に共通する一般的な性質として正しいものはどれか。", choices:[
+        "電気や熱をよく伝える","すべて水に浮く","加工性がまったくない","燃えるとすぐになくなる"
+      ], answer:0, explain:"金属は一般に電気伝導性・熱伝導性が高いという共通の性質を持つ。" },
+    { chapter:1, q:"プラスチックに共通する一般的な性質として正しいものはどれか。", choices:[
+        "金属より必ず頑丈である","軽く、さびない","熱にきわめて強く絶対に燃えない","すべて自然に分解される"
+      ], answer:1, explain:"プラスチックは金属と違い軽量でさびない（腐食しない）という利点がある一方、熱や紫外線による劣化には注意が必要。" },
+    { chapter:1, q:"一般的なプラスチックの原料は主に何からつくられているか。", choices:[
+        "石油","木材","鉄鉱石","砂"
+      ], answer:0, explain:"一般的なプラスチックの多くは石油を原料として化学的に合成されている。" }
+  ];
+
+  // ==============================
+  // 第1章：エキスパート活動のまとめ（詳しい特徴・23問）
+  // ==============================
+  var CH1_DETAIL = [
+    { chapter:1, q:"木材の性質について正しいものはどれか。", choices:[
+        "繊維方向に沿うと引っ張りに強く、繊維に直角な方向は割れやすい",
+        "どの方向でも強さはまったく同じである",
+        "繊維に直角な方向のほうが引っ張りに強い",
+        "繊維方向は木材の色にしか関係しない"
+      ], answer:0, explain:"木材は繊維方向に沿うと強度が高く、繊維に直角な方向は割裂（裂けやすい）性質がある。" },
+    { chapter:1, q:"年輪に対してほぼ垂直に挽いた、年輪がまっすぐな平行線状に見える板を何というか。", choices:[
+        "板目板","まさ目板","こぐち材","こば材"
+      ], answer:1, explain:"年輪に対してほぼ垂直に挽いた板を「まさ目板」といい、年輪が直線的な木目として現れる。" },
+    { chapter:1, q:"年輪に対してほぼ平行に挽き、山形や波形の木目模様が現れる板を何というか。", choices:[
+        "まさ目板","板目板","こぐち材","こば材"
+      ], answer:1, explain:"年輪に対してほぼ平行に挽いた板を「板目板」といい、山形・波形の木目模様が現れる。" },
+    { chapter:1, q:"板を繊維方向に対して直角に切った、年輪の断面が見える端の面を何というか。", choices:[
+        "こば（木端）","こぐち（木口）","板目","まさ目"
+      ], answer:1, explain:"こぐち（木口）は繊維方向に対して直角に切断した端面で、年輪の断面が見える。" },
+    { chapter:1, q:"板の幅の狭い側面で、繊維方向に平行な面を何というか。", choices:[
+        "こぐち（木口）","こば（木端）","板目","まさ目"
+      ], answer:1, explain:"こば（木端）は板の幅の狭い側面で、繊維方向に平行な面を指す。" },
+    { chapter:1, q:"木材が乾燥すると反りやすくなる主な理由はどれか。", choices:[
+        "年輪の内側と外側で収縮率が異なるため",
+        "繊維がすべて均一に伸びるため",
+        "必ず節があるため",
+        "塗装が乾いていないため"
+      ], answer:0, explain:"木材は年輪の外側（樹皮側）と内側（髄側）で収縮率が異なるため、乾燥時に反りが生じやすい。" },
+    { chapter:1, q:"四角形の枠に対角線の補強材を入れて三角形の構造にすると、どうなるか。", choices:[
+        "変形しにくくじょうぶになる","かえって弱くなる","重さが変わるだけである","見た目が変わるだけで強度は同じである"
+      ], answer:0, explain:"三角形は形が変わりにくい構造で、四角形の枠に筋交いを入れて三角形に分割すると強度が高まる。" },
+    { chapter:1, q:"合板（ベニヤ板）が反りにくい理由として正しいものはどれか。", choices:[
+        "天然木材をそのまま使っているため",
+        "薄い板を繊維方向が互い違いになるように貼り合わせているため",
+        "プラスチックを混ぜて作っているため",
+        "まったく乾燥させていないため"
+      ], answer:1, explain:"合板は単板を繊維方向が交差するように積層接着することで、方向による伸縮の偏りを打ち消し、反りや割れを防いでいる。" },
+    { chapter:1, q:"金属をたたくなどして薄く広げ、板状に加工できる性質を何というか。", choices:[
+        "延性","展性","塑性","弾性"
+      ], answer:1, explain:"展性（てんせい）は金属をたたくなどして薄く広げられる性質で、金や銀は展性が高い。" },
+    { chapter:1, q:"金属を引き延ばして細い線状に加工できる性質を何というか。", choices:[
+        "展性","延性","弾性","靭性"
+      ], answer:1, explain:"延性（えんせい）は引っ張ると細長く伸びる性質で、電線などの製造に利用される。" },
+    { chapter:1, q:"力を加えて変形させた後、力を取り除いても元に戻らず変形したままになる性質を何というか。", choices:[
+        "弾性","塑性","展性のみ","摩擦"
+      ], answer:1, explain:"塑性（そせい）は力を除いても変形が残る性質で、板金加工などはこの性質を利用している。" },
+    { chapter:1, q:"力を加えて変形させても、力を取り除くと元の形に戻る性質を何というか。", choices:[
+        "弾性","塑性","展性","延性"
+      ], answer:0, explain:"弾性（だんせい）は変形しても元の形に戻ろうとする性質で、ばねなどに利用される。" },
+    { chapter:1, q:"金属を繰り返し曲げたり叩いたりすると、硬くなると同時にもろく（割れやすく）なる現象を何というか。", choices:[
+        "焼きなまし","加工硬化","鋳造","腐食"
+      ], answer:1, explain:"加工硬化は金属に繰り返し力を加えることで組織が変化し、硬くなる一方で粘り強さが減りもろくなる現象。" },
+    { chapter:1, q:"加工硬化した金属を加熱し、やわらかさを取り戻す処理を何というか。", choices:[
+        "焼き入れ","焼きなまし（焼鈍）","鋳造","めっき"
+      ], answer:1, explain:"焼きなまし（焼鈍）は金属を加熱後ゆっくり冷やすことで、硬くなった組織を元に戻し加工しやすくする処理。" },
+    { chapter:1, q:"溶かした金属を型に流し込んで目的の形をつくる加工方法を何というか。", choices:[
+        "鍛造","鋳造","圧延","切削"
+      ], answer:1, explain:"鋳造（ちゅうぞう）は金属を高温で溶かし、型に流し込んで固めて成形する加工方法。" },
+    { chapter:1, q:"金属をハンマーなどで叩いて鍛えながら成形する加工方法を何というか。", choices:[
+        "鋳造","鍛造","溶接","めっき"
+      ], answer:1, explain:"鍛造（たんぞう）は金属を叩いて組織を密にしながら成形する加工方法で、強度が高くなる。" },
+    { chapter:1, q:"鉄がさびる（腐食する）ことを防ぐための加工として適切なものはどれか。", choices:[
+        "加工硬化させる","表面にめっきや塗装を施す","鋳造をやめる","展性を高める"
+      ], answer:1, explain:"鉄などの金属は水分・酸素と反応してさびるため、めっきや塗装で表面を保護し腐食を防ぐ。" },
+    { chapter:1, q:"加熱するとやわらかくなり、冷やすと固まる性質を持ち、何度でも成形し直せるプラスチックを何というか。", choices:[
+        "熱硬化性プラスチック","熱可塑性プラスチック","繊維強化プラスチック","生分解性プラスチック"
+      ], answer:1, explain:"熱可塑性プラスチックは加熱で軟化し冷却で固まる性質を持ち、繰り返し成形・リサイクルしやすい。" },
+    { chapter:1, q:"一度熱を加えて固めると、再び加熱してもやわらかくならず元に戻らないプラスチックを何というか。", choices:[
+        "熱可塑性プラスチック","熱硬化性プラスチック","汎用プラスチック","生分解性プラスチック"
+      ], answer:1, explain:"熱硬化性プラスチックは一度硬化すると再加熱しても軟化せず、耐熱性・耐薬品性に優れる（電気製品の絶縁部品などに使われる）。" },
+    { chapter:1, q:"ペットボトルなどに使われるプラスチックの正式名称はどれか。", choices:[
+        "ポリ塩化ビニル（PVC）","ポリエチレンテレフタレート（PET）","ポリスチレン（PS）","アクリル樹脂（PMMA）"
+      ], answer:1, explain:"ペットボトルの材料はポリエチレンテレフタレート（PET）で、熱可塑性プラスチックの一種であり、リサイクルしやすい。" },
+    { chapter:1, q:"レジ袋やラップなどによく使われる、軽くて柔軟なプラスチックはどれか。", choices:[
+        "ポリエチレン（PE）","熱硬化性樹脂","アクリル樹脂","ポリ塩化ビニル（PVC）のみ"
+      ], answer:0, explain:"ポリエチレン（PE）は軽くて柔らかく加工しやすい熱可塑性プラスチックで、袋やフィルムなどに広く使われる。" },
+    { chapter:1, q:"3Dプリンタで模型を出力する際によく使われる熱可塑性プラスチック（フィラメント）はどれか。", choices:[
+        "熱硬化性エポキシ樹脂のみ","PLA（ポリ乳酸）やABS樹脂","ガラス繊維のみ","ゴムのみ"
+      ], answer:1, explain:"3Dプリンタでは、加熱で溶かして積層できる熱可塑性のPLA（ポリ乳酸）やABS樹脂などのフィラメントがよく使われる。" },
+    { chapter:1, q:"プラスチックが紫外線や熱に長期間さらされると起こりやすい現象はどれか。", choices:[
+        "展性が高まる","劣化してもろくなる（変色・ひび割れ）","必ず加工硬化する","さびが発生する"
+      ], answer:1, explain:"プラスチックは紫外線や熱により分子構造が変化し、変色やひび割れなどの経年劣化を起こすことがある。" }
+  ];
+
+  // ==============================
+  // 第1章：課題③〜最終課題（探究の進め方・5問）
+  // ==============================
+  var CH1_PROCESS = [
+    { chapter:1, q:"エキスパート活動とは、どのような活動か。", choices:[
+        "各自が担当の視点（安全性・耐久性・環境面・利便性など）を詳しく調べ、専門家になる活動",
+        "クラス全員で同じ資料をただ読むだけの活動",
+        "先生が答えをすべて教える活動",
+        "友達の作品を採点するだけの活動"
+      ], answer:0, explain:"エキスパート活動は、グループの中で1人ずつ異なる視点（安全性・耐久性・環境面・利便性など）を担当し、その視点について詳しく調べて「専門家」になる活動。" },
+    { chapter:1, q:"ジグソー活動とは、どのような活動か。", choices:[
+        "1人で黙々と作業するだけの活動",
+        "エキスパート活動で学んだ内容をグループに持ち寄り、知識を組み合わせて課題を解決する活動",
+        "材料を実際に切断する活動",
+        "小テストを受けるだけの活動"
+      ], answer:1, explain:"ジグソー活動は、各自がエキスパート活動で学んだ知識をグループに持ち寄り、組み合わせて新しい課題（最適解の提案）を解く活動。" },
+    { chapter:1, q:"プレゼン資料を作成する際のルールとして正しいものはどれか。", choices:[
+        "必ず1人で作成しなければならない",
+        "Googleスライドで共同編集し、1枚目に表紙を入れる",
+        "スライドの枚数は10枚以内と決まっている",
+        "表紙は入れなくてよい"
+      ], answer:1, explain:"プレゼン資料はGoogleスライドで共同編集し、スライドの枚数は自由だが1枚目には表紙を入れるというルールがある。" },
+    { chapter:1, q:"プレゼン資料の作成前に行うとよいとされている活動はどれか。", choices:[
+        "すぐに発表を始める",
+        "公園のベンチなどを調べ、生成AIに自分たちの意見を入れて批判的な意見をもらう",
+        "材料をすべて廃棄する",
+        "アンケート用紙を配布するだけにする"
+      ], answer:1, explain:"プレゼン資料作成の前に、実際の製品を調べたり、生成AIに意見を入力して批判的な視点をもらったりすることで、考えを深めてから資料作成に取り組むとよいとされている。" },
+    { chapter:1, q:"各グループの発表を聞いた後、最終課題のまとめとして行うことは何か。", choices:[
+        "何も記録せず終了する",
+        "発表を聞いて、最終的に自分の意見はどうなったかをスプレッドシートに記入する",
+        "発表内容を無視する",
+        "他のグループの点数だけをつける"
+      ], answer:1, explain:"各グループのプレゼンを聞いた後、最終的に自分の意見がどうなったかをスプレッドシートに記入して振り返る活動を行う。" }
+  ];
+
+  // ==============================
+  // 第2章-A：問題発見フェーズ（1〜3時間目・5問）
+  // ==============================
+  var CH2_A = [
+    { chapter:2, q:"全体課題で扱うパイン材のサイズとして正しいものはどれか。", choices:[
+        "900mm×300mm×20mm","1200mm×210mm×12mm","1500mm×150mm×10mm","2000mm×250mm×15mm"
+      ], answer:1, explain:"プロジェクトでは1200mm×210mm×12mmのパイン材1枚をどう活用するかが全体課題となっている。" },
+    { chapter:2, q:"「〇〇さんが、××で困っている」という文で表されるものは何か。", choices:[
+        "解決すべき課題","ユーザーの願い（Wants）","評価基準","材料取り計画"
+      ], answer:1, explain:"「〇〇さんが、××で困っている」はユーザーの願い（Wants）を表す文で、これをもとに「解決すべき課題」（〇〇を××にするための、△△を製作する）を設定する。" },
+    { chapter:2, q:"良い課題（課題文）の条件として正しいものはどれか。", choices:[
+        "できるだけ抽象的であいまいなこと",
+        "具体的で、誰のためか明確で、実現できる規模であること",
+        "予算のことは考えなくてよいこと",
+        "誰のためかは考えなくてよいこと"
+      ], answer:1, explain:"良い課題文の3条件は「具体的である」「誰のためか明確」「作れる規模である」ことである。" },
+    { chapter:2, q:"課題を考えるときに生成AIを活用する際、大切にすべき姿勢として正しいものはどれか。", choices:[
+        "AIの提案を必ずそのまま採用する",
+        "AIの提案をそのまま使うのではなく、最後は自分で決める",
+        "AIには一切相談しない",
+        "AIの提案を丸写しして提出する"
+      ], answer:1, explain:"生成AIはヒントを得るための対話相手であり、最終的な判断や決定は自分自身で行うことが大切だとされている。" },
+    { chapter:2, q:"ペアレビューで「聞く側」の役割として適切なものはどれか。", choices:[
+        "一方的に自分の意見を話す","質問をして相手の考えを深める手助けをする","何も発言しない","相手の課題を代わりに決めてしまう"
+      ], answer:1, explain:"ペアレビューでは、聞く側が「本当に困ってる人がいる？」などの質問をして、話す側の考えを深める手助けをする。" }
+  ];
+
+  // ==============================
+  // 第2章-B：全体像・4つの視点・評価・設計フェーズ（6問）
+  // ==============================
+  var CH2_B = [
+    { chapter:2, q:"このプロジェクトで、最適化を考える際の「4つの視点」として正しい組み合わせはどれか。", choices:[
+        "知識・技能／思考・判断・表現／態度／技術",
+        "願い・安全・環境・経済",
+        "木材・金属・プラスチック・複合材料",
+        "問題発見・設計・製作・評価"
+      ], answer:1, explain:"技術の見方・考え方として、「社会の要求（願い）」「安全性」「環境面」「経済性」の4つの視点のバランス（トレードオフ）で最適解を考える。" },
+    { chapter:2, q:"本番の木材を切る前に、設計のミスや無駄を検証するために使う道具・方法はどれか。", choices:[
+        "のこぎりだけで確認する","3Dプリンタによるプロトタイプ（模型）","完成品の写真だけを見る","生成AIの文章だけで確認する"
+      ], answer:1, explain:"CAD設計をもとに3Dプリンタでプロトタイプ（模型）を作り、本番前に寸法や構造のミスを検証する。" },
+    { chapter:2, q:"1〜3時間目にあたる学習フェーズの名前として正しいものはどれか。", choices:[
+        "設計・試作","問題発見","製作実習","評価・改善"
+      ], answer:1, explain:"全体の学習の流れは「問題発見（1〜3時間目）→設計・試作（4〜9時間目）→製作実習→評価・改善」の順に進む。" },
+    { chapter:2, q:"4〜9時間目にあたる学習フェーズの名前として正しいものはどれか。", choices:[
+        "問題発見","設計・試作","製作実習","評価・改善"
+      ], answer:1, explain:"4〜9時間目は、CAD設計と3Dプリント模型による検証を行う「設計・試作」フェーズにあたる。" },
+    { chapter:2, q:"この題材の評価の3本柱として正しい組み合わせはどれか。", choices:[
+        "知識・技能／生成AIの操作技能／協働性",
+        "知識・技能／思考・判断・表現／主体的に学習に取り組む態度",
+        "思考力／体力／発表力",
+        "安全性／経済性／環境面"
+      ], answer:1, explain:"評価の3本柱は「知識・技能」「思考・判断・表現」「主体的に学習に取り組む態度」の3観点である。" },
+    { chapter:2, q:"「環境面」の視点における工夫の具体例として挙げられているものはどれか。", choices:[
+        "予算内での材料配分","角を丸めるなどの工夫","1200mm×210mm×12mmの板材を無駄なく使い切る工夫","ユーザーの悩みをどう解決したか"
+      ], answer:2, explain:"環境面の視点は、板材を無駄なく使い切る工夫（歩留まりを高めること）などが該当する。安全性・経済性・願いとは異なる観点である。" }
+  ];
+
+  // ==============================
+  // クイズセット定義
+  // ==============================
+  var QUIZ_SETS = {
+    "ch1-basic":   { title:"課題①②　材料の性質と加工方法",           returnTo:"ch1sub", questions: CH1_BASIC },
+    "ch1-detail":  { title:"エキスパート活動のまとめ",                 returnTo:"ch1sub", questions: CH1_DETAIL },
+    "ch1-process": { title:"課題③〜最終課題　探究の進め方",           returnTo:"ch1sub", questions: CH1_PROCESS },
+    "ch1-all":     { title:"第1章　全問通し",                         returnTo:"ch1sub", questions: CH1_BASIC.concat(CH1_DETAIL, CH1_PROCESS) },
+    "ch2-a":       { title:"問題発見フェーズ（1〜3時間目）",           returnTo:"ch2sub", questions: CH2_A },
+    "ch2-b":       { title:"4つの視点と評価・設計フェーズ",           returnTo:"ch2sub", questions: CH2_B },
+    "ch2-all":     { title:"第2章　全問通し",                         returnTo:"ch2sub", questions: CH2_A.concat(CH2_B) },
+    "all":         { title:"実力テスト　全問通し",                    returnTo:"top",    questions: CH1_BASIC.concat(CH1_DETAIL, CH1_PROCESS, CH2_A, CH2_B) }
+  };
+
+  // ==============================
+  // 状態管理
+  // ==============================
+  var state = { setKey:null, queue:[], index:0, score:0, wrong:[], returnTo:"top" };
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function buildRuntimeQuestion(src){
+    var order = shuffle([0,1,2,3]);
+    var choices = order.map(function(i){ return src.choices[i]; });
+    var answer = order.indexOf(src.answer);
+    return { chapter: src.chapter, q: src.q, choices: choices, answer: answer, explain: src.explain };
+  }
+
+  var screens = {
+    top: document.getElementById("screen-top"),
+    ch1sub: document.getElementById("screen-ch1sub"),
+    ch2sub: document.getElementById("screen-ch2sub"),
+    quiz: document.getElementById("screen-quiz"),
+    result: document.getElementById("screen-result")
+  };
+
+  function showScreen(name){
+    Object.keys(screens).forEach(function(key){
+      screens[key].classList.toggle("hidden", key !== name);
+    });
+  }
+
+  document.querySelectorAll("[data-goto]").forEach(function(el){
+    el.addEventListener("click", function(){ showScreen(el.getAttribute("data-goto")); });
+  });
+
+  document.querySelectorAll("[data-start]").forEach(function(el){
+    el.addEventListener("click", function(){ startQuiz(el.getAttribute("data-start")); });
+  });
+
+  var progressLabel = document.getElementById("progress-label");
+  var scoreLabel = document.getElementById("score-label");
+  var barFill = document.getElementById("bar-fill");
+  var sectionBadge = document.getElementById("section-badge");
+  var questionText = document.getElementById("question-text");
+  var choicesEl = document.getElementById("choices");
+  var feedbackEl = document.getElementById("feedback");
+  var verdictEl = document.getElementById("verdict");
+  var explainEl = document.getElementById("explain");
+  var nextBtn = document.getElementById("next-btn");
+  var cancelBtn = document.getElementById("cancel-btn");
+
+  function startQuiz(key){
+    var set = QUIZ_SETS[key];
+    state.setKey = key;
+    state.returnTo = set.returnTo;
+    state.queue = shuffle(set.questions).map(buildRuntimeQuestion);
+    state.index = 0;
+    state.score = 0;
+    state.wrong = [];
+
+    showScreen("quiz");
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    var set = QUIZ_SETS[state.setKey];
+    var total = state.queue.length;
+    var cur = state.queue[state.index];
+
+    progressLabel.textContent = set.title + "　　問 " + (state.index + 1) + " / " + total;
+    scoreLabel.textContent = "正解数 " + state.score;
+    barFill.style.width = (state.index / total * 100) + "%";
+    sectionBadge.textContent = cur.chapter === 1 ? "第1章" : "第2章";
+    questionText.textContent = cur.q;
+
+    choicesEl.innerHTML = "";
+    var labels = ["A","B","C","D"];
+    cur.choices.forEach(function(choiceText, i){
+      var b = document.createElement("button");
+      b.className = "choice-btn";
+      b.innerHTML = '<span class="choice-label">' + labels[i] + "</span>" + choiceText;
+      b.addEventListener("click", function(){ selectChoice(i); });
+      choicesEl.appendChild(b);
+    });
+
+    feedbackEl.classList.remove("show");
+    nextBtn.classList.add("hidden");
+  }
+
+  function selectChoice(i){
+    var cur = state.queue[state.index];
+    var buttons = choicesEl.querySelectorAll(".choice-btn");
+    buttons.forEach(function(b){ b.disabled = true; });
+
+    var correct = (i === cur.answer);
+    if(correct){
+      state.score++;
+      buttons[i].classList.add("correct");
+    } else {
+      buttons[i].classList.add("wrong");
+      buttons[cur.answer].classList.add("correct");
+      state.wrong.push({
+        chapter: cur.chapter, q: cur.q,
+        your: cur.choices[i], correctText: cur.choices[cur.answer], explain: cur.explain
+      });
+    }
+
+    verdictEl.textContent = correct ? "○ 正解！" : "× 不正解";
+    verdictEl.className = "verdict " + (correct ? "ok" : "ng");
+    explainEl.textContent = cur.explain;
+    feedbackEl.classList.add("show");
+    scoreLabel.textContent = "正解数 " + state.score;
+
+    var total = state.queue.length;
+    nextBtn.textContent = (state.index === total - 1) ? "結果を見る" : "次の問題へ";
+    nextBtn.classList.remove("hidden");
+  }
+
+  nextBtn.addEventListener("click", function(){
+    state.index++;
+    if(state.index >= state.queue.length){ showResult(); }
+    else { renderQuestion(); }
+  });
+
+  cancelBtn.addEventListener("click", function(){
+    var ok = window.confirm("この問題を中断して選択画面に戻りますか？\n回答内容は保存されません。");
+    if(ok){ showScreen(state.returnTo); }
+  });
+
+  function showResult(){
+    showScreen("result");
+
+    var total = state.queue.length;
+    var rate = Math.round(state.score / total * 100);
+
+    document.getElementById("result-num").textContent = state.score + " / " + total;
+    document.getElementById("result-label").textContent = "正答率 " + rate + "%";
+    document.getElementById("rate-fill").style.width = rate + "%";
+
+    var reviewList = document.getElementById("review-list");
+    reviewList.innerHTML = "";
+
+    if(state.wrong.length === 0){
+      var allOk = document.createElement("p");
+      allOk.style.textAlign = "center";
+      allOk.style.color = "var(--sub)";
+      allOk.style.marginTop = "18px";
+      allOk.textContent = "全問正解でした！";
+      reviewList.appendChild(allOk);
+    } else {
+      var heading = document.createElement("p");
+      heading.style.fontWeight = "700";
+      heading.style.marginTop = "20px";
+      heading.style.marginBottom = "4px";
+      heading.textContent = "間違えた問題の復習";
+      reviewList.appendChild(heading);
+
+      state.wrong.forEach(function(w){
+        var item = document.createElement("div");
+        item.className = "review-item";
+
+        var qEl = document.createElement("div");
+        qEl.className = "review-q";
+        qEl.textContent = (w.chapter === 1 ? "【第1章】 " : "【第2章】 ") + w.q;
+        item.appendChild(qEl);
+
+        var ansEl = document.createElement("div");
+        ansEl.className = "review-answers";
+        ansEl.innerHTML = '<span class="your">あなたの回答：' + w.your + '</span><br><span class="ans">正解：' + w.correctText + "</span>";
+        item.appendChild(ansEl);
+
+        var exEl = document.createElement("div");
+        exEl.className = "review-explain";
+        exEl.textContent = w.explain;
+        item.appendChild(exEl);
+
+        reviewList.appendChild(item);
+      });
+    }
+  }
+
+  document.getElementById("retry-btn").addEventListener("click", function(){
+    startQuiz(state.setKey);
+  });
+
+  document.getElementById("menu-btn").addEventListener("click", function(){
+    showScreen(state.returnTo);
+  });
+
+  showScreen("top");
+
+})();
+</script>
+</body>
+</html>
