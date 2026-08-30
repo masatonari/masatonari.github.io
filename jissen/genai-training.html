@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全校生徒に生成AIを教えた110分。151人の振り返りが教えてくれたこと</title>
+  <meta name="description" content="全校生徒対象の生成AI活用研修会を110分で実施。事後アンケート151人分の分析から見えた、原理理解への到達、学年ごとの驚きの違い、そして時間配分の反省を記録します。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+      line-height: 1.2;
+      margin: 0.45rem 0 0.6rem;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+    }
+
+    .back-link { margin: 0 0 0.9rem; }
+    .back-link a {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+    .back-link a:hover { background: rgba(255,255,255,0.25); }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.7rem;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    article {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      color: var(--accent);
+      margin: 1.2rem 0 0.5rem;
+      border-bottom: 2px solid var(--accent-2);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: var(--text);
+      margin: 1.5rem 0 0.4rem;
+      font-weight: 700;
+    }
+
+    p, li { color: var(--muted); font-size: 1rem; }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-left: 3px solid var(--accent-2);
+      background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.12));
+      border-radius: 0 12px 12px 0;
+    }
+    .note p:last-child { margin-bottom: 0; }
+
+    /* 図版 */
+    .figure { margin: 1rem 0 1.2rem; }
+    .figure img {
+      width: 100%; height: auto; display: block;
+      border-radius: 16px; border: 1px solid var(--line);
+    }
+    .figure .caption {
+      margin-top: 0.45rem; font-size: 0.85rem;
+      color: var(--muted); text-align: center;
+    }
+
+    /* 数字カード */
+    .figures { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.2rem 0; }
+    .fig-card {
+      flex: 1 1 200px;
+      background: linear-gradient(135deg, rgba(47,111,159,0.07), rgba(89,169,216,0.11));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+    }
+    .fig-num {
+      display: block; font-size: 2rem; font-weight: 800;
+      line-height: 1.2; color: var(--accent);
+    }
+    .fig-label {
+      display: block; font-size: 0.85rem; color: var(--muted);
+      line-height: 1.6; margin-top: 0.3rem;
+    }
+
+    /* データ表 */
+    .table-wrap { overflow-x: auto; margin: 1rem 0 1.2rem; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.94rem; background: #fff;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    caption {
+      text-align: left; font-size: 0.88rem; font-weight: 700;
+      color: var(--accent); padding-bottom: 0.4rem;
+    }
+    th, td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--muted); }
+    thead th { background: rgba(89,169,216,0.14); color: var(--text); font-size: 0.88rem; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* 生徒の声 */
+    blockquote {
+      margin: 0.9rem 0; padding: 0.8rem 1.1rem;
+      background: rgba(89,169,216,0.09);
+      border-left: 3px solid var(--accent-2);
+      border-radius: 0 12px 12px 0;
+    }
+    blockquote p { margin: 0; }
+    blockquote cite {
+      display: block; font-size: 0.82rem; color: var(--muted);
+      font-style: normal; margin-top: 0.4rem; opacity: 0.85;
+    }
+
+    /* 反省パネル */
+    .reflect {
+      margin: 1.2rem 0;
+      padding: 1.1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(214,120,140,0.10), rgba(214,120,140,0.05));
+      border: 1px solid rgba(214,120,140,0.28);
+      border-radius: 16px;
+    }
+    .reflect h3 { margin-top: 0; color: #a44b64; }
+    .reflect p:last-child { margin-bottom: 0; }
+
+    /* Q&A */
+    .qa {
+      margin: 1rem 0; padding: 1rem 1.15rem;
+      background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    }
+    .qa .q { font-weight: 700; color: var(--accent); margin: 0 0 0.5rem; }
+    .qa p:last-child { margin-bottom: 0; }
+
+    /* 関連記事 */
+    .related { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+    .related h2 { margin-top: 0; }
+    .related ul { padding-left: 1.2rem; }
+    .related a { color: var(--accent); text-decoration: underline; }
+
+    footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 700px) {
+      .header { padding: 1.8rem 0 2.2rem; }
+      .fig-num { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="eyebrow">生成AI実践02</div>
+      <h1>全校生徒に生成AIを教えた110分。<br>151人の振り返りが教えてくれたこと</h1>
+      <p class="lead">「知る」で終わらせず、「確かめる」まで。うまくいかなかったことも含めて</p>
+      <p class="status-badge">🔄 第2弾を準備中です</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+
+      <p>本校の全校生徒を対象に、110分の生成AI活用研修会を実施しました。講師は私が務めました。</p>
+      <p>研修後の振り返りアンケートには、151人が答えてくれました。この記事では、研修の設計意図と当日の流れ、そして151人分の回答から読み取れたことを記録します。うまくいったことだけでなく、設計上の反省も含めて書きます。同じような研修をこれから設計される方に、少しでも参考になれば幸いです。</p>
+
+      <div class="figure">
+        <img src="../images/genai-training-01-cover.jpg" alt="研修会のタイトルスライド。知る・確かめる・生かすの3段階が示されている" />
+        <div class="caption">研修のタイトルスライド。「知る → 確かめる → 生かす」の3段階を最初に提示した。</div>
+      </div>
+
+      <h2>「知る」だけでは足りないと考えた</h2>
+      <p>生成AIの研修は、注意点を並べる形になりがちです。ハルシネーション、著作権、情報流出。どれも大事なことです。しかし、注意点を聞いた生徒が本当に行動を変えるかというと、そこには距離があります。</p>
+      <p>「AIは間違えることがあります」と言われて、「そうなんだ」と思う。それは知識です。けれど、目の前で自分の学校について堂々と間違えるところを見れば、それは体験になります。この差が、行動が変わるかどうかの分かれ目になると考えました。</p>
+      <p>そこで研修全体を、はっきり二段構えにしました。前半は既存教材で基礎知識を「知る」段階。後半は自校の題材を使って、その知識が本当かどうかを「確かめる」段階です。土台がないまま実演を見せても「へえ、すごい」で終わってしまいますが、「AIはウソをつくことがある」と学んだ直後に本当にウソをつく場面を見れば、知識と体験が結びつきます。</p>
+
+      <div class="figure">
+        <img src="../images/genai-training-02-lesson.jpg" alt="レッスンで学んだ生成AIの整理スライド。得意なこと3つと注意点3つが並んでいる" />
+        <div class="caption">前半の到達点。この時点で持っているのは「知識」であることを明示し、後半への橋渡しにした。</div>
+      </div>
+
+      <h2>110分の設計</h2>
+
+      <div class="figure">
+        <img src="../images/genai-training-03-flow.jpg" alt="研修の時間割スライド。はじめに5分、レッスン25分、深掘り前半20分、休憩10分、深掘り後半35分、まとめ15分" />
+        <div class="caption">110分の内訳。深掘り（前半20分＋後半35分）で全体の半分を使う設計にした。この配分が、後に反省点として効いてくる。</div>
+      </div>
+
+      <h3>なぜウソをつくのか — 桃太郎の穴埋めで原理を説明する</h3>
+      <p>ハルシネーションを「起きる現象」としてではなく、「起きる理由」として説明したいと考えました。使ったのは桃太郎の穴埋めです。</p>
+
+      <div class="figure">
+        <img src="../images/genai-training-04-momotaro.jpg" alt="生成AIの仕組みを桃太郎の穴埋めで説明するスライド。しば刈りに90パーセント、遊びに5パーセントなどの確率が示されている" />
+        <div class="caption">「おじいさんは山へ（　　）」の次に来る言葉を、AIは確率で選んでいる。研修全体でいちばん効いたスライド。</div>
+      </div>
+
+      <p>「おじいさんは山へ（　　）」の空欄に何が入るか。生徒はすぐ「しば刈りに」と答えます。では、なぜそう答えられたのか。意味を理解しているからではなく、その言葉がいちばん来そうだと知っているからです。生成AIも同じことをしている——意味を理解せず、確率的に次に来そうな言葉を並べている。だからデータにないことを聞かれると、低い確率の中から「もっともらしい別の言葉」を選んでしまう。これがハルシネーションの正体です。</p>
+      <p>説明の直後に、実際に生成AIへ本校の沿革と校歌の歌詞を尋ねる実演を行いました。返ってきたのは、もっともらしい形をした事実と異なる沿革と、まるごと創作された校歌の歌詞でした。作詞者の名前まで、実在しない人物が堂々と挙げられていました。</p>
+      <p>自分たちの学校のことでさえ平気で間違える。「生成AIが言ったから正しい」は通用しない。この一点を体験として持ち帰ってもらうことが、前半の目標でした。</p>
+
+      <h3>偏りに気づく — 教材にはなかった論点</h3>
+      <p>バイアスは、使用した教材では扱われていない論点でした。しかし生成AIを日常的に使う世代にとっては、むしろこちらのほうが影響が長く残ると考え、独自に追加しました。</p>
+      <p>「生成AIに『飛行機のパイロット』の画像を出力させたら、どうなるか」とクイズにして予想させたうえで、実際の出力を見せます。パイロットは男性。看護師は女性。警察官は男性。花屋は女性。タクシー運転手は男性。</p>
+
+      <div class="figure">
+        <img src="../images/genai-training-05-bias.jpg" alt="生成AIが出力した職業画像を並べたスライド。看護師と花屋は女性、警察官とタクシー運転手は男性が出力された" />
+        <div class="caption">職業を指定して画像を生成すると、性別が偏って出力される。人間社会の偏りを、AIがそのまま学習していることの実例。</div>
+      </div>
+
+      <p>ここからフィルターバブルとエコーチェンバーの話につなげました。SNSや動画サービスの「おすすめ」も、自分が好きそうなものばかりを見せてくる。AIの偏りと、自分の情報環境の偏りは地続きです。だから、ときどき自分から「反対の意見」や「知らない世界」を見に行こう、と。</p>
+
+      <h3>本物か、フェイクか — 自校を舞台にした偽速報</h3>
+      <p>後半の山場として、本校を舞台に「校内にクマが侵入した」という偽の速報動画を、生成AIで自作して見せました。実在しない出来事です。ニュース番組風のテロップと日時表示をつけ、何の予告もなく再生しました。</p>
+      <p>まず「気づいたこと・感じたこと・自分だったらどうするか」をグループで話し合わせ、そのうえで「本物かフェイクか」を理由つきで答えてもらいました。</p>
+
+      <div class="figure">
+        <img src="../images/genai-training-06-fake.jpg" alt="フェイク動画の種明かしスライド。情報を受け取ったときの3つの確認事項が並んでいる" />
+        <div class="caption">種明かしのスライド。写真1枚と短い文だけで、本物らしいニュースが誰にでも作れる時代であることを共有した。</div>
+      </div>
+
+      <p>写真1枚と短い文章だけで、これだけのものが作れてしまう。だからこそ、情報を受け取ったら「いつの情報か」「だれが発信したか」「ほかの信頼できる情報源にもあるか」を確かめる。確かめる前に拡散しない。この3点を持ち帰ってもらいました。</p>
+
+      <div class="note">
+        <p>この教材については、扱いを事前に検討しました。動画の冒頭と終了直後に「この出来事は実際にありませんでした」と明示しています。不安を煽ることが目的ではないためです。</p>
+      </div>
+
+      <h2>151人の回答から読み取れたこと</h2>
+      <p>研修後、Googleフォームで振り返りアンケートを実施し、151人から回答を得ました。まず全体の数字です。</p>
+
+      <div class="figures">
+        <div class="fig-card">
+          <span class="fig-num">95.4%</span>
+          <span class="fig-label">情報を見たとき「本当かな？」と一歩立ち止まれそうだと答えた</span>
+        </div>
+        <div class="fig-card">
+          <span class="fig-num">90.8%</span>
+          <span class="fig-label">研修より前から生成AIを使ったことがある</span>
+        </div>
+        <div class="fig-card">
+          <span class="fig-num">35.8%</span>
+          <span class="fig-label">「よく使う」と回答。3年生に限れば44%</span>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>研修前の生成AI使用経験（n=151）</caption>
+          <thead>
+            <tr><th>区分</th><th class="num">人数</th><th class="num">割合</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>よく使う</td><td class="num">54</td><td class="num">35.8%</td></tr>
+            <tr><td>ときどき使う</td><td class="num">83</td><td class="num">55.0%</td></tr>
+            <tr><td>1〜2回だけ</td><td class="num">9</td><td class="num">6.0%</td></tr>
+            <tr><td>使ったことがない</td><td class="num">5</td><td class="num">3.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>この数字を最初に見たとき、正直に言えば少し驚きました。9割を超える生徒が、すでに使っている。学年が上がるほど日常化しており、「よく使う」の割合は1年24%、2年35%、3年44%と明確な差が出ています。</p>
+      <p>つまり学校は、「使わせるかどうか」を議論する段階をすでに通り過ぎています。議論すべきは「どう使わせたら、より効果的か」です。この認識の切り替えが、いま最も急がれることだと感じました。</p>
+
+      <h3>1　「知識」ではなく「しくみ」まで届いた</h3>
+      <p>自由記述でもっとも多く現れたのは、「AIは意味を理解しておらず、確率で次の言葉を選んでいる」という趣旨の記述でした。目視で分類したところ約30件、回答者のおよそ2割にあたります。</p>
+
+      <blockquote>
+        <p>意味を理解していると思っていたけれど、確率で言葉をつなげていると知って驚いた。</p>
+        <cite>生徒の振り返りより（一部を短く整理しています）</cite>
+      </blockquote>
+
+      <blockquote>
+        <p>だからハルシネーションが起こるんだと腑に落ちた。</p>
+        <cite>生徒の振り返りより</cite>
+      </blockquote>
+
+      <p>これは、注意点を列挙しただけでは生まれない反応です。桃太郎の穴埋めで仕組みを説明し、その直後に自校を題材にした実演で確かめさせた。この「原理 → 検証」の並びが、原理理解に接続したと考えています。</p>
+      <p>そしてこの理解は、6つの影すべての土台になります。なぜ間違えるのか、なぜ偏るのか、なぜ本物そっくりの偽物が作れるのか。すべて「確率で並べている」という一点から説明がつくからです。この設計は、今後の情報教育でも再利用できると思います。</p>
+
+      <h3>2　驚きの中心は、学年で違った</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>「6つの影」でもっとも心に残ったもの（n=151）</caption>
+          <thead>
+            <tr><th>項目</th><th class="num">人数</th><th class="num">割合</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ハルシネーション</td><td class="num">41</td><td class="num">27.2%</td></tr>
+            <tr><td>フェイク動画・画像</td><td class="num">39</td><td class="num">25.8%</td></tr>
+            <tr><td>情報の流出</td><td class="num">26</td><td class="num">17.2%</td></tr>
+            <tr><td>知的財産権の侵害</td><td class="num">16</td><td class="num">10.6%</td></tr>
+            <tr><td>情報の偏り（フィルターバブル等）</td><td class="num">15</td><td class="num">9.9%</td></tr>
+            <tr><td>バイアス（偏り）</td><td class="num">14</td><td class="num">9.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>全体の1位はハルシネーションですが、学年別に見ると景色が変わります。1年生・2年生はハルシネーションが1位（各33%）。一方3年生は、フェイク動画・画像（27%）と情報の流出（21%）が上位に来ました。</p>
+      <p>さらに使用頻度で切ると、傾向がはっきりします。「情報の流出」を選んだ生徒の46%、「フェイク動画・画像」を選んだ生徒の41%が「よく使う」層でした。これに対し「ハルシネーション」を選んだ生徒では27%にとどまります。</p>
+      <p>読み取れるのは、こういうことだと思います。使用経験が浅い段階では「AIって間違えるのか」という驚きが中心になる。しかし日常的に使う生徒ほど、関心は「自分の情報は大丈夫なのか」「拡散に自分はどう関わるのか」という、より社会的で実践的な問題へ移っている。</p>
+      <p>これは、全校一律の内容では上級学年に物足りず、下級学年には難しいということでもあります。次回は学年で重点を変える必要があります。</p>
+
+      <h3>3　「使っている生徒ほど慎重」とは限らない</h3>
+      <p>もうひとつ、見落としたくない数字がありました。「本当かな？と一歩立ち止まれそうか」に否定的だった生徒は7名と少数です。しかしその内訳は、「よく使う」層が4名（同層の7.4%）、「ときどき使う」層が3名（同3.6%）。使用頻度が高い層にやや偏っていました。</p>
+      <p>母数が小さいので断定はできません。ただ、「慣れ」が「立ち止まらなさ」に転じる可能性は想定しておくべきだと感じました。よく使っている生徒を、そのまま「できている生徒」と見なさない視点が要ります。</p>
+
+      <h3>4　「人に相談する」が、生徒の言葉になった</h3>
+      <p>研修の最後に、「いちばん大事なのは人と人とのつながり。画面の向こうより、となりにいる人を大切に」という話をしました。これが自由記述に返ってきたのが、8件ほどありました。</p>
+
+      <blockquote>
+        <p>AIばかりに頼らず、友達や家族にも相談したい。</p>
+        <cite>生徒の振り返りより</cite>
+      </blockquote>
+
+      <p>教員から言われたことが、生徒自身の行動指針として言語化されている。生徒指導や教育相談の観点からも、意味のある結果だったと受け止めています。</p>
+
+      <h2>生徒からの質問に答える</h2>
+      <p>アンケートの質問欄に、答えておくべきものが2件ありました。</p>
+
+      <div class="qa">
+        <p class="q">Q. 先生もハルシネーションを体験しましたか？</p>
+        <p>あります。何度も。</p>
+        <p>研修で見せた校歌の歌詞も、作詞者の名前も、まるごと作り話でした。実を言えば私も最初は「へえ、そうなんだ」と信じかけました。慣れている大人でも引っかかります。だからこそ、確かめる習慣と、なぜ間違えるのかという知識の両方が要るのです。</p>
+      </div>
+
+      <div class="qa">
+        <p class="q">Q. 勉強のときに、問題や答えを作ってもらうのはアリですか？</p>
+        <p>アリです。とてもいい使い方だと思います。ただし条件が二つ。</p>
+        <p>ひとつ、答えが合っているか、教科書や問題集で確かめること。ふたつ、解く前に答えを見ないこと。「問題を作らせて、自分で解く」。この順番なら、考える力は落ちません。</p>
+      </div>
+
+      <p>この2件目は、私にとって重い問いかけでした。生徒は、学習方法としての可否を自分で判断できずにいる。そしてこれは、今回の研修が扱わなかった領域です。次の指導課題を、生徒の側から突きつけられた形になりました。各教科での方針提示が要ります。</p>
+
+      <h2>反省：リスクに寄りすぎた</h2>
+
+      <div class="reflect">
+        <h3>110分のうち55分を、リスクの話に使ってしまった</h3>
+        <p>自由記述には、こういう記述も一定数ありました。「生成AIは危ないことがわかった」「AIに頼りすぎないようにしたい」「AIに聞かずに自分で考えたい」。回避に傾いた受け止めです。そしてこれは、研修の構成上、避けがたい結果でした。</p>
+      </div>
+
+      <p>もともとのねらいは、「未来に可能性を感じ、もっと学びたいと思わせること」でした。ところが実際の時間配分を見ると、110分のうち55分、つまり半分を深掘り（＝リスク）に充てています。プロンプトのコツと実際に使ってみるワークは「予備（時間があれば）」の扱いで、当日は十分に時間を取れませんでした。</p>
+      <p>光と影の両方を扱ったつもりでしたが、時間の重みが影に寄っていた。生徒の印象がそちらに引っ張られるのは当然です。<strong>ねらいを裏切ったのは内容ではなく、時間配分でした。</strong></p>
+      <p>これから同じような研修を設計される方には、この点をお伝えしたいと思います。扱う項目のリストではなく、各項目に何分使うかを見てください。生徒が持ち帰る印象は、そこで決まります。</p>
+
+      <div class="figure">
+        <img src="../images/genai-training-07-shadows.jpg" alt="生成AIの6つの影を整理したスライド。ハルシネーション、知的財産権の侵害、情報の流出、バイアス、情報の偏り、フェイク動画・画像" />
+        <div class="caption">まとめでは、リスクを「6つの影」として整理した。整理としては機能したが、これだけの分量を影に割いたことが印象の偏りにつながった。</div>
+      </div>
+
+      <h2>第2弾へ：「気をつけて使う」から「よりよく使う」へ</h2>
+      <p>そこで第2弾は、ハンズオン形式の「プロンプト＆成果物共有会」として構想しています。第1弾が「気をつけて使う」の獲得だったのに対し、第2弾は「よりよく使う」の獲得を目指します。</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>第2弾の想定内容（案）</caption>
+          <thead>
+            <tr><th>段階</th><th>内容</th><th class="num">時間</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>導入</td><td>前回のアンケート結果を返す。「6つの影」の確認</td><td class="num">10分</td></tr>
+            <tr><td>比較体験</td><td>同じ課題を「雑な聞き方」と「公式に沿った聞き方」で試し、出力の差を体感する</td><td class="num">20分</td></tr>
+            <tr><td>個人ワーク</td><td>自分の探究テーマ・困りごとを持ち込み、対話しながら成果物を作る</td><td class="num">30分</td></tr>
+            <tr><td>吟味</td><td>出力を「使える／使えない」に仕分け、根拠を書き添える</td><td class="num">15分</td></tr>
+            <tr><td>共有</td><td>学級内から全校へ。優れたプロンプトと成果物を掲示・配信する</td><td class="num">20分</td></tr>
+            <tr><td>まとめ</td><td>学習での使い方の線引き（問題を作らせて自分で解く 等）</td><td class="num">15分</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>設計上、外せないと考えている4点</h3>
+      <ul>
+        <li><strong>成果物は各自の実課題から取る。</strong>架空の課題では吟味が働きません。総合的な学習の時間のテーマ、自主学習、部活動の練習計画など、自分の困りごとを持ち込ませます。</li>
+        <li><strong>「使えない出力」も共有対象にする。</strong>失敗例の共有は、第1弾で学んだハルシネーションやバイアスの実地確認として機能します。</li>
+        <li><strong>学年で難度を変える。</strong>1・2年は公式に沿った入力と検証が中心。3年は複数回の対話による絞り込みや、進路・受験学習での線引きまで扱います。</li>
+        <li><strong>評価の軸を先に示す。</strong>出力の質ではなく「問いの立て方」と「吟味の根拠」を評価対象とすることを、生徒に事前に明示します。</li>
+      </ul>
+
+      <p>なお本校では、技術科のPBL単元で、生徒が身のまわりの「不便」を調査し課題文を立てる過程に、すでに生成AIとの対話を組み込んでいます。第2弾で「自分の探究テーマを持ち込む」という設計は、この既存の実践と接続させることを想定したものです。</p>
+
+      <p>そして教員側の準備です。第2弾は、机間指導の質が成否を分けます。教員自身が「聞き方で出力が変わる」経験を持っていなければ、生徒に助言できません。事前に職員研修で同じワークを短時間でも体験しておきたいと考えています。</p>
+
+      <h3>運用面の改善点</h3>
+      <ul>
+        <li><strong>フォームの入力形式。</strong>出席番号欄で表記ゆれが生じ、集計に余計な手間がかかりました。次回はプルダウンか入力制限をかけます。</li>
+        <li><strong>回答時間の確保。</strong>出席者に対する回答率は約80%。研修終了直前に時間が足りなかった学級があったと思われます。次回は最後の10分を回答時間として明示的に確保します。</li>
+        <li><strong>事前・事後の比較。</strong>今回は事後のみの調査だったため、変容を数値で示せていません。第2弾では同一項目で事前調査を行い、変化を捉えます。</li>
+      </ul>
+
+      <h2>おわりに：両輪であること</h2>
+
+      <div class="figure">
+        <img src="../images/genai-training-08-ryorin.jpg" alt="生成AIを活用する力とメディアリテラシーが、AI時代を生きるための両輪であることを示すスライド" />
+        <div class="caption">研修の締めくくり。活用する力とメディアリテラシーは両輪である、という話をした。</div>
+      </div>
+
+      <p>生成AIを使えば、本物そっくりのウソも簡単に作れてしまいます。だからこそ、活用する力とメディアリテラシーの両方が要る。研修の最後は、この2つは両輪だという話で締めくくりました。</p>
+      <p>ただ、今回の110分は、その両輪のうち片方だけを強く回してしまった回でした。9割を超える生徒がすでに使っているという実態を前にして、学校が伝えるべきことは「気をつけなさい」だけではないはずです。</p>
+      <p>生徒からはすでに「勉強にどう使えばよいか」という問いが出ています。学校としての答えを、次の機会に用意したいと思います。</p>
+
+      <div class="related">
+        <h2>関連する実践</h2>
+        <ul>
+          <li><a href="./pbl-optimization.html">技術科PBL：学校・家庭の不便を最適化せよ</a> — 生徒が生成AIと対話しながら課題を立てる単元</li>
+          <li><a href="../gijutsu-quiz.html">技術科 学習確認クイズ</a> — 上記単元に対応した確認テスト</li>
+          <li><a href="./jissei-ai.html">生成AIとの歩み</a> — 校務での活用から研修設計まで</li>
+        </ul>
+      </div>
+
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>
