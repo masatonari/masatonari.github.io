@@ -5,6 +5,9 @@
 .DS_Store
 Thumbs.db
 
+# 公開しない素材の置き場
+private/
+
 # 実名・学校名・PDFを含む校務資料は非公開
 *.pdf
 *丸森*

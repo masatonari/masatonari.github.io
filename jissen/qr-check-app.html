@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>見分ける力か、見分けなくて済む道具か。QRコードの点検ツールを試作した</title>
+  <meta name="description" content="公開授業で見た「URLを一文字ずつ見比べる」活動。その作業を道具の側で引き受けられないかと考え、QRコードの点検ツールを試作した記録です。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+      --warm: #fbeef0;
+      --warm-line: #e8bcc6;
+      --warm-ink: #a44b64;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+      line-height: 1.25;
+      margin: 0.45rem 0 0.6rem;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+    }
+
+    .back-link { margin: 0 0 0.9rem; }
+    .back-link a {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+    .back-link a:hover { background: rgba(255,255,255,0.25); }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.7rem;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    article {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      color: var(--accent);
+      margin: 1.2rem 0 0.5rem;
+      border-bottom: 2px solid var(--accent-2);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: var(--text);
+      margin: 1.5rem 0 0.4rem;
+      font-weight: 700;
+    }
+
+    p, li { color: var(--muted); font-size: 1rem; }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-left: 3px solid var(--accent-2);
+      background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.12));
+      border-radius: 0 12px 12px 0;
+    }
+    .note p:last-child { margin-bottom: 0; }
+
+    .trouble {
+      margin: 1.2rem 0;
+      padding: 1.1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(214,120,140,0.10), rgba(214,120,140,0.05));
+      border: 1px solid var(--warm-line);
+      border-radius: 16px;
+    }
+    .trouble h3 { margin-top: 0; color: var(--warm-ink); }
+    .trouble p:last-child { margin-bottom: 0; }
+
+    .figure { margin: 1.2rem 0; }
+    .figure img, .figure svg {
+      width: 100%; height: auto; display: block;
+      border-radius: 16px; border: 1px solid var(--line);
+    }
+    .figure svg { border: none; }
+    .figure .caption {
+      margin-top: 0.45rem; font-size: 0.85rem;
+      color: var(--muted); text-align: center;
+    }
+
+    .urlbox {
+      margin: 1.2rem 0;
+      padding: 1.2rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .urlbox .u {
+      font-family: "Consolas", "Menlo", monospace;
+      font-size: clamp(1rem, 3.2vw, 1.5rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .urlbox .u .hit { color: #c0392b; font-weight: 800; }
+    .urlbox .cap { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; }
+
+    .table-wrap { overflow-x: auto; margin: 1rem 0 1.2rem; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.94rem; background: #fff;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    caption {
+      text-align: left; font-size: 0.88rem; font-weight: 700;
+      color: var(--accent); padding-bottom: 0.4rem;
+    }
+    th, td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--muted); }
+    thead th { background: rgba(89,169,216,0.14); color: var(--text); font-size: 0.88rem; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .related { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+    .related h2 { margin-top: 0; }
+    .related ul { padding-left: 1.2rem; }
+    .related a { color: var(--accent); text-decoration: underline; }
+
+    footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 700px) {
+      .header { padding: 1.8rem 0 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="eyebrow">技術科実践02</div>
+      <h1>見分ける力か、<br>見分けなくて済む道具か</h1>
+      <p class="lead">QRコードの点検ツールを試作して、考えたこと</p>
+      <p class="status-badge">🔧 試作中です</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+
+      <p>ある中学校の公開授業を参観しました。技術科、情報の技術の単元です。</p>
+      <p>本時の課題はこうでした。デザインがまったく同じ学校案内のポスターを数種類用意し、QRコードだけを差し替えておく。そのうち本物の公式サイトにつながるのはひとつだけ。生徒は読み取ったURLを見比べて、どれが本物かを判断する。</p>
+      <p>よく考えられた授業だと思いました。「怪しいサイトは開かない」という気持ちの話ではなく、URLの構造という技術的な根拠で判断させる。技術科が扱うべき内容そのものです。</p>
+      <p>ただ、参観しながら、別のことを考えていました。</p>
+
+      <h2>この作業、面倒だよな</h2>
+
+      <p>生徒がやっているのは、読み取ったURLを画面に出して、正しいドメインと一文字ずつ見比べる作業です。たとえば、こういう文字列を見比べます。</p>
+
+      <div class="urlbox">
+        <p class="u">https://shop-examp<span class="hit">I</span>e.co.jp/campaign/</p>
+        <p class="cap">小文字の l（エル）ではなく、大文字の I（アイ）が混ざっている</p>
+      </div>
+
+      <p>気づけたでしょうか。並べて見比べても、見つけるのは簡単ではありません。授業では時間を取って、拡大して、班で相談しながら探します。それでも見落とす生徒はいます。</p>
+
+      <p>そして、ここからが本題です。</p>
+
+      <div class="trouble">
+        <h3>この作業を、日常でやる人がいるだろうか</h3>
+        <p>街のポスターでQRコードを読み取ったとき、表示されたURLを一文字ずつ確かめてから開く。そんなことをする中学生が、どれだけいるでしょうか。大人でもやらないと思います。そもそも多くのスマートフォンでは、<strong>読み取った瞬間にサイトが開いてしまいます。</strong>確かめる場面そのものが、存在していません。</p>
+      </div>
+
+      <p>授業で育てているのは「見分けられる力」です。それは必要です。けれど、力があることと、日常で実際に使うことは別です。使う場面がなければ、力は使われないまま終わります。</p>
+
+      <p>だとすれば、問いはこうなるのではないか。<strong>見分けられるようにするのではなく、見分けなくても済むようにできないか。</strong></p>
+
+      <h2>読み取りと表示の間に、一拍置く</h2>
+
+      <p>そこで試作したのが、QRコードを読み取っても「開かない」ツールです。</p>
+
+      <div class="figure">
+        <img src="../images/qr-check-01-top.jpg" alt="ツールのトップ画面。QRコードを読み取っても開きません、という見出しの下に、カメラで読み取るボタンと、読み取ったURLを表示する点検欄、照合する正規ドメインの入力欄、警告の強さを切り替えるボタンが並んでいる" />
+        <div class="caption">読み取ったURLは点検欄に入るだけで、サイトは開かない。</div>
+      </div>
+
+      <p>カメラでQRコードを読み取ると、URLは点検欄に入ります。それだけです。サイトは開きません。照合したい正規ドメインを入れておくと、URLの構造を分解したうえで、気になる点を機械的に洗い出します。</p>
+
+      <div class="figure">
+        <img src="../images/qr-check-02-safe.jpg" alt="URLを構造ごとに色分けして分解した表示。プロトコル、サブドメイン、組織名、トップレベルドメイン、パスに分けられ、その下に通信の暗号化とドメインの一致という点検項目が緑色で並んでいる" />
+        <div class="caption">URLを要素ごとに分解して表示する。授業で生徒が目視でやっていた作業にあたる。</div>
+      </div>
+
+      <p>この分解表示が、授業の作業を肩代わりする部分です。どこが組織名で、どこがパスなのか。目で追って切り分けていた作業を、画面が代わりに済ませます。</p>
+
+      <h2>同じURLでも、答えが変わる</h2>
+
+      <p>このツールには、警告の強さを切り替えるボタンがあります。「厳しめ」と「ゆるめ」です。<strong>同じURLを点検しても、設定によって結果が変わります。</strong></p>
+
+      <div class="figure">
+        <img src="../images/qr-check-03-danger.jpg" alt="厳しめに設定したときの結果。開かないでください、という赤い警告が出ており、開くボタンは出しませんと書かれている。点検した項目にはドメインの一致が赤で表示されている" />
+        <div class="caption">厳しめ：「開かないでください」。開くボタンそのものを出さない。</div>
+      </div>
+
+      <div class="figure">
+        <img src="../images/qr-check-04-caution.jpg" alt="ゆるめに設定したときの結果。開く前に確かめてください、という黄色の注意が出ており、警告を読んだうえで自分の判断で開きますというチェックボックスを入れると、開くボタンが押せるようになる" />
+        <div class="caption">ゆるめ：「開く前に確かめてください」。チェックを入れれば、自分の判断で開ける。</div>
+      </div>
+
+      <p>厳しめでは、開くボタンを置いていません。危険と判定したものに「それでも開く」という道を用意すれば、結局そこを押してしまうからです。ゆるめでは、警告を読んだうえでのチェックを経て、自分の判断で開けます。</p>
+
+      <p>どちらが正しいという話ではありません。厳しくすれば、まったく問題のない正しいサイトにも警告が出ます。ゆるくすれば、危険なものを見逃します。<strong>見逃しを減らせば過剰な警告が増え、過剰な警告を減らせば見逃しが増える。</strong>この二つは同時に成り立ちません。</p>
+
+      <div class="note">
+        <p>ここを生徒と話したいと考えています。安全をつくる技術には必ずこの手の線引きがあり、どこに引くかは誰かが決めている。自動ブレーキの効き具合も、迷惑メールの振り分けも、同じ構造です。「設計には、正解のない判断が含まれている」ことを、自分の手で両方試しながら実感できる教材になるはずです。</p>
+      </div>
+
+      <h2>この道具にできないこと</h2>
+
+      <p>画面の下部に、こう書いてあります。ルールが見ているのは文字列だけであること。だから「警告なし」は「安全」ではないこと。</p>
+
+      <p>この但し書きは、おまけではなく本体だと思っています。道具を渡すとき、できることだけを説明すれば、使う側はそれを万能だと思います。<strong>何ができないかを一緒に渡さなければ、かえって危険になる。</strong>警告が出ないことを安全の証明だと受け取った生徒は、以前より無防備になります。</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>このツールが見ているもの／見ていないもの</caption>
+          <thead>
+            <tr><th>見ているもの</th><th>見ていないもの</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>通信が暗号化されているか（https かどうか）</td><td>そのサイトが実際に何をするか</td></tr>
+            <tr><td>照合先のドメインと一致しているか</td><td>そのドメインを誰が持っているか</td></tr>
+            <tr><td>国を表す末尾が違っていないか</td><td>過去に被害の報告があるか</td></tr>
+            <tr><td>紛らわしい文字が混ざっていないか</td><td>リンク先からさらに転送されないか</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>本当に作りたいもの</h2>
+
+      <p>ここまで書いてきて、正直に認めておかなければならないことがあります。</p>
+
+      <p><strong>このツールは、生徒が意識して開かないと使えません。</strong>いつものカメラでQRコードを読み取れば、やはりそのままサイトへ飛びます。日常の場面を変えるという当初のねらいから見れば、まだ届いていません。</p>
+
+      <p>では、本当に作りたいものは何か。<strong>カメラそのものに、この一拍が組み込まれていることです。</strong>読み取ったら、開く前に一度止まる。点検の結果が出る。そのうえで人が決める。別のアプリを開く必要はなく、誰もが使っている機能の中に、はじめからその工程がある。</p>
+
+      <p>そう考えると、この試作品は未完成のアプリというより、<strong>仕様の提案</strong>なのだと思います。「QRリーダーには、読み取りと表示の間に点検の工程が要るのではないか」という提案を、動く形にして示したもの。実際、製品として成り立つのではないかとも考えています。</p>
+
+      <h2>技術科が問うべきこと</h2>
+
+      <p>技術科の見方・考え方は、既存の技術を評価し、よりよいものへ改良・応用していくところまでを含みます。だとすれば、授業で立てる問いは「どれが本物か見分けなさい」で終わってよいのでしょうか。</p>
+
+      <p>その先に、こういう問いがあるはずです。<strong>見分けなければならない状況そのものを、技術で変えられないか。</strong></p>
+
+      <p>見分ける力を育てることと、見分けなくても済む仕組みを作ること。どちらか一方ではなく、両方が要ります。前者は授業で、後者は設計で。そして後者を考えることもまた、技術科の学習だと思うのです。</p>
+
+      <p>公開授業を参観して持ち帰ったのは、指導法ではなく、この問いでした。</p>
+
+      <div class="related">
+        <h2>関連する実践</h2>
+        <ul>
+          <li><a href="./genai-training.html">全校生徒に生成AIを教えた110分</a> — 情報を疑い、確かめる力をどう育てるか</li>
+          <li><a href="./pbl-optimization.html">技術科PBL：学校・家庭の不便を最適化せよ</a> — 身のまわりの不便を技術で解く単元</li>
+        </ul>
+      </div>
+
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>
