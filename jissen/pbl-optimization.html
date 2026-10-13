@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>技術科PBL｜学校・家庭の「困った」を最適化せよ</title>
-  <meta name="description" content="技術科PBLの実践記録。学校と家庭のなかにある小さな困りごとを、学びの視点から見つめ直す記事です。" />
+  <meta name="description" content="技術科PBLの実践記録。学校と家庭のなかにある小さな困りごとを、学びの視点から見つめ直す記事です。全22時間のうち、設計・試作フェーズまでの記録を追記しました。" />
   <style>
     :root {
       --bg: #eef7ff;
@@ -117,6 +117,42 @@
 
     .pdf-button { display: inline-block; margin-top: 0.7rem; padding: 0.75rem 1rem; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-weight: 700; box-shadow: 0 10px 24px rgba(47,111,159,0.18); }
 
+    /* ここから追記分のスタイル */
+    .divider {
+      margin: 2.4rem 0 1.6rem;
+      padding: 0.9rem 1.1rem;
+      background: linear-gradient(135deg, rgba(47,111,159,0.10), rgba(89,169,216,0.06));
+      border: 1px dashed var(--accent-2);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .divider p { margin: 0; color: var(--accent); font-weight: 700; }
+
+    .figure { margin: 1.4rem 0; }
+    .figure svg { width: 100%; height: auto; display: block; }
+    .figure .caption { margin-top: 0.45rem; font-size: 0.85rem; color: var(--muted); text-align: center; }
+
+    .photos { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.2rem 0; }
+    .photos figure { flex: 1 1 280px; margin: 0; }
+    .photos figcaption { margin-top: 0.45rem; font-size: 0.85rem; color: var(--muted); text-align: center; }
+
+    .table-wrap { overflow-x: auto; margin: 1rem 0 1.2rem; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.94rem; background: #fff;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    caption { text-align: left; font-size: 0.88rem; font-weight: 700; color: var(--accent); padding-bottom: 0.4rem; }
+    th, td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--muted); vertical-align: top; }
+    thead th { background: rgba(89,169,216,0.14); color: var(--text); font-size: 0.88rem; }
+    tbody tr:last-child td { border-bottom: none; }
+    td.q { color: var(--text); font-weight: 700; white-space: nowrap; }
+
+    .related { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+    .related h2 { margin-top: 0; }
+    .related ul { padding-left: 1.2rem; }
+    .related a { color: var(--accent); text-decoration: underline; }
+
     footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
 
     @media (max-width: 700px) { .header { padding: 1.8rem 0 2.2rem; } }
@@ -129,7 +165,7 @@
       <div class="eyebrow">技術科実践01</div>
       <h1>技術科PBL「学校・家庭の『困った』を最適化せよ」</h1>
       <p class="lead">日常にある小さな困りごとを、学びの題材として捉え直し、考え、試し、伝える経験を通して、子どもたちの学びを深める実践です。</p>
-      <p class="status-badge">🔄 この実践は現在進行中です(2026年7月時点)</p>
+      <p class="status-badge">🔨 製作実習フェーズに入りました（第10時／全22時間・2026年10月時点）</p>
     </div>
   </header>
 
@@ -172,6 +208,145 @@
       <h2>これから</h2>
       <p>次の段階では、設計の過程をより深めたいと考えています。改善案を具体化し、試作品だけでなく、使う場面を想定した設計を行い、検証の視点を持って進めることを重視します。</p>
       <p>そのために、3Dプリントを使った検証も組み込み、試作の精度や使い勝手を確認しながら、学びをさらに実感できる形にしていきます。さらに、教頭として自ら率先垂範し、職員にもこの考え方を広げていきたい。小さな実践を積み重ねることで、学校全体の学びの質を少しずつ変えていきたいと考えています。</p>
+
+      <div class="divider">
+        <p>── ここから下は、2026年10月時点の追記です ──</p>
+      </div>
+
+      <p>上に書いた構想は、その後こう進みました。全22時間のうち、設計・試作フェーズを終え、製作実習に入っています。</p>
+
+      <h2>全22時間の流れ</h2>
+
+      <div class="figure">
+        <svg viewBox="0 0 860 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="全22時間の流れを4つのフェーズで示した図。1から3時間目が問題発見・課題設定で完了、4から9時間目が設計・試作で完了、10から20時間目が製作実習でいまここ、21から22時間目が評価・改善。">
+          <defs>
+            <marker id="a1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+              <path d="M0,1 L7,4.5 L0,8 z" fill="#9fc6de"/>
+            </marker>
+          </defs>
+          <g font-family="sans-serif" text-anchor="middle">
+            <rect x="12" y="40" width="196" height="120" rx="14" fill="#ffffff" stroke="#c8e2f4"/>
+            <text x="110" y="66" font-size="11.5" fill="#5b7390">1〜3時間目</text>
+            <text x="110" y="92" font-size="15" font-weight="700" fill="#16324f">問題発見・課題設定</text>
+            <text x="110" y="116" font-size="11.5" fill="#5b7390">校内・家庭の「不便」調査</text>
+            <text x="110" y="134" font-size="11.5" fill="#5b7390">ユーザーへのインタビュー</text>
+            <text x="110" y="180" font-size="12" font-weight="700" fill="#5b7390">完了</text>
+
+            <rect x="228" y="40" width="196" height="120" rx="14" fill="#ffffff" stroke="#c8e2f4"/>
+            <text x="326" y="66" font-size="11.5" fill="#5b7390">4〜9時間目</text>
+            <text x="326" y="92" font-size="15" font-weight="700" fill="#16324f">設計・試作</text>
+            <text x="326" y="116" font-size="11.5" fill="#5b7390">CAD設計・3Dプリント模型</text>
+            <text x="326" y="134" font-size="11.5" fill="#5b7390">でミスや無駄を検証</text>
+            <text x="326" y="180" font-size="12" font-weight="700" fill="#5b7390">完了</text>
+
+            <rect x="444" y="34" width="196" height="132" rx="14" fill="#dceffa" stroke="#2f6f9f" stroke-width="2"/>
+            <text x="542" y="62" font-size="11.5" fill="#2f6f9f">10〜20時間目</text>
+            <text x="542" y="90" font-size="15" font-weight="700" fill="#16324f">製作実習</text>
+            <text x="542" y="116" font-size="11.5" fill="#5b7390">パイン材の加工・組立て</text>
+            <text x="542" y="134" font-size="11.5" fill="#5b7390">1mm単位の精度を目指す</text>
+            <text x="542" y="186" font-size="12.5" font-weight="700" fill="#2f6f9f">いまここ</text>
+
+            <rect x="660" y="40" width="188" height="120" rx="14" fill="#ffffff" stroke="#c8e2f4"/>
+            <text x="754" y="66" font-size="11.5" fill="#5b7390">21〜22時間目</text>
+            <text x="754" y="92" font-size="15" font-weight="700" fill="#16324f">評価・改善</text>
+            <text x="754" y="116" font-size="11.5" fill="#5b7390">試験運用・ユーザー評価</text>
+            <text x="754" y="134" font-size="11.5" fill="#5b7390">動画発表</text>
+          </g>
+          <g stroke="#9fc6de" stroke-width="2" marker-end="url(#a1)" fill="none">
+            <path d="M210,100 L224,100"/><path d="M426,100 L440,100"/><path d="M644,100 L656,100"/>
+          </g>
+        </svg>
+        <div class="caption">全22時間のうち、9時間を設計と試作に使う。作る前に考える時間を厚く取った。</div>
+      </div>
+
+      <h2>第3時：課題を一つに決める</h2>
+
+      <p>問題発見フェーズの仕上げです。それまでに挙げた課題の中から、自分が本気で取り組みたいものを1つに決め、設計書を完成させます。</p>
+      <p>絞り込みは4ステップにしました。課題を全部リストアップし、4つの視点で自分で絞り、ペアで見せ合って意見をもらい、設計書に打ち込む。この「自分で絞る」場面に、生成AIとの対話を組み込みました。</p>
+      <p>全校生徒を対象にした生成AIの研修を行った直後でもありました。研修では「出てきた答えを使えるか使えないかは、自分で判断する」と話しています。それを実際にやってみる場にもなりました。</p>
+
+      <blockquote class="note">「AIと話し、3Dプリンターをどこで使うか迷っていたけど、話した結果、角に使うことによって安全性が高まるということがわかりました。そこには目がいかなかったので、良い案が良かったです。」<br><span style="font-size:0.9rem; color:var(--muted);">（生徒の振り返りより）</span></blockquote>
+
+      <p>「そこには目がいかなかった」。この一言が、生成AIの使いどころを言い当てていると思います。答えを出してもらったのではなく、自分では見ていなかった方向を示してもらった。そのうえで採用するかどうかは本人が決めています。</p>
+
+      <h2>第4〜9時：CADで設計し、1/10模型で確かめる</h2>
+
+      <p>設計・試作フェーズには6時間を充てました。3DCADの操作を覚え、1200mmのパイン材をどう使うかを考えながら形にしていきます。材料取り図と組立図（正投影図）まで出力します。</p>
+      <p>そして、できあがった設計を1/10の模型として3Dプリンタで出力しました。</p>
+
+      <div class="photos">
+        <figure>
+          <img src="../images/pbl-model-top.jpg" alt="3Dプリンタで出力された白い1/10模型。仕切りが入った箱型の小物入れを正面から見たところ" />
+          <figcaption>出力された1/10模型。仕切りの位置や間隔を、手に取って確かめられる。</figcaption>
+        </figure>
+        <figure>
+          <img src="../images/pbl-model-angle.jpg" alt="同じ模型を斜め上から見たところ。側板と仕切りの関係、底板の張り出しが分かる" />
+          <figcaption>角度を変えると、板の重なり方や角の立ち方が見えてくる。</figcaption>
+        </figure>
+      </div>
+
+      <div class="subheading">模型は、間違い探しの道具ではなかった</div>
+
+      <p>模型を出す目的は、当初「設計のミスや無駄を見つけること」でした。寸法が合わない、板が足りない、組み立てられない。そうした失敗を、木材を切る前に見つけるためです。</p>
+      <p>ところが、生徒の振り返りを読んで、考えが変わりました。</p>
+
+      <blockquote class="note">「模型を見てみて気づいたことは、ミスはなかったけれど、安全性の観点でみると角が多く危ないことが模型を見て気づきました。なので、組み立てる前に角を丸くする工程を入れて、さらに利便性や安全性をあげていきたいです。」<br><span style="font-size:0.9rem; color:var(--muted);">（生徒の振り返りより）</span></blockquote>
+
+      <blockquote class="note">「そこで安全性があまりなっていないので、角を丸くして安全性を高めようと思いました。」<br><span style="font-size:0.9rem; color:var(--muted);">（生徒の振り返りより）</span></blockquote>
+
+      <p><strong>「ミスはなかったけれど」。</strong>ここが大事なところです。寸法は合っていた。設計としては成立していた。それでも、手に取ってみて問題を見つけている。</p>
+
+      <p>見つけた問題は「安全性」でした。第1時に渡した4つの視点のひとつです。つまり模型は、設計が正しいかを確かめる道具としてではなく、<strong>4つの視点で自分の設計を評価し直す道具</strong>として働いていたことになります。</p>
+
+      <div class="note">
+        <p>画面の中のCADでは、角は線でしかありません。手のひらに載せて初めて「これは当たったら痛い」と感じられる。評価の観点を持っていたからこそ、その感覚が「安全性の問題」という言葉になったのだと思います。視点を先に渡しておくことと、手で触れられるものを作ること。この二つが噛み合った場面でした。</p>
+      </div>
+
+      <div class="subheading">設計書に、トレードオフを書かせる</div>
+
+      <p>生徒は「私のものづくり設計書」というシートに、設計の過程を記録していきます。その中に、4つの視点それぞれについて自分の工夫を書く欄と、どの視点に重点を置くかを選ぶ欄を設けました。</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>設計書「最適化・トレードオフ」欄の記入例（本などを収める棚を設計した生徒）</caption>
+          <thead>
+            <tr><th>視点</th><th>自分の工夫</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="q">社会の要求</td><td>本・漫画を一度にたくさん持っていける</td></tr>
+            <tr><td class="q">安全性</td><td>どこを持ってもいいように、釘を多方面に打って強度を上げる</td></tr>
+            <tr><td class="q">環境面</td><td>自分にちょうどいい大きさに設計したため、使い切ることは難しそう</td></tr>
+            <tr><td class="q">経済性</td><td>本・漫画が入るちょうどいい大きさにした</td></tr>
+            <tr><td class="q">重点を置く視点</td><td>経済性</td></tr>
+            <tr><td class="q">どう最適化したいか</td><td>自分だけでなく、家族全員が使いやすいよう、適切な大きさになるよう作りたい</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>注目したいのは環境面の記述です。<strong>「使い切ることは難しそう」</strong>と書いています。自分の設計の弱点を、隠さずに書いている。</p>
+      <p>4つすべてを満たすことはできません。どれかを立てれば、どれかが引っ込む。それがトレードオフです。全部できたことにするより、何を取って何を諦めたかを自覚しているほうが、技術の学習としては深い。この欄は、それを言葉にさせるために置いています。</p>
+
+      <h2>第10時〜：製作実習が始まりました</h2>
+
+      <p>ここからが、木材を扱う11時間です。安全に道具を使うルールを確認し、けがき（材料に線を引く作業）から始めました。先週その1時間目を終え、次回でけがきが終わる見込みです。</p>
+      <p>CADで1mm単位まで詰めた設計が、実際の木材でどうなるか。設計どおりに切れるか、組み立てられるか。ここから先は、画面の中では起きなかったことが起きるはずです。</p>
+      <p>そして第21〜22時には、作ったものを実際に使ってもらい、ユーザーに評価してもらって、動画で発表します。「本当に誰かの役に立ちそうか」という最初の問いに、自分で答えを出す時間です。</p>
+
+      <h2>ここまでの手応え</h2>
+
+      <p>このプロジェクトで試したかったのは、<strong>評価の観点を先に渡しておくと、生徒は自分で考え続けられるのではないか</strong>ということでした。</p>
+      <p>4つの視点は、課題を選ぶときの道具として渡したものです。しかし生徒は、それを模型を手に取るときにも、生成AIに相談するときにも、設計書に自分の弱点を書くときにも使っていました。一度渡した枠組みが、場面を変えて働き続けている。</p>
+      <p>「背景」に書いたとおり、この単元は、持ち帰る物を前提にするのをやめたところから始まりました。作ることを目的から外したぶん、考える時間を厚く取れています。その判断は、いまのところ間違っていなかったと感じています。</p>
+      <p>製作実習が終わったら、また書き足します。</p>
+
+      <div class="related">
+        <h2>関連する実践</h2>
+        <ul>
+          <li><a href="./qr-check-app.html">見分ける力か、見分けなくて済む道具か</a> — 技術の見方・考え方をどう働かせるか</li>
+          <li><a href="./genai-training.html">全校生徒に生成AIを教えた110分</a> — この単元で生成AIを使う前に行った全校研修</li>
+          <li><a href="../gijutsu-quiz.html">技術科 学習確認クイズ</a> — この単元に対応した確認テスト</li>
+        </ul>
+      </div>
     </article>
   </main>
 
