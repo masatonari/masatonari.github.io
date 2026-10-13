@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>注文システムを作り直した。213件の運用と、エージェント開発の実際</title>
+  <meta name="description" content="文化祭の昼食注文システムを作り直しました。4つの改良と213件の運用結果、そしてコピペからエージェント開発へ変わった作り方の記録です。" />
+  <style>
+    :root {
+      --bg: #eef7ff;
+      --panel: #fcfeff;
+      --text: #16324f;
+      --muted: #5b7390;
+      --accent: #2f6f9f;
+      --accent-2: #59a9d8;
+      --line: #c8e2f4;
+      --shadow: 0 16px 40px rgba(22, 50, 79, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: linear-gradient(180deg, #f4fbff 0%, #e2f2ff 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f4c81 0%, #3c8ac8 45%, #74c2f0 100%);
+      color: #fff;
+      padding: 2.2rem 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+      line-height: 1.2;
+      margin: 0.45rem 0 0.6rem;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+    }
+
+    .back-link { margin: 0 0 0.9rem; }
+    .back-link a {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      color: #fff;
+      font-size: 0.95rem;
+      transition: background 0.2s ease;
+    }
+    .back-link a:hover { background: rgba(255,255,255,0.25); }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.7rem;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    main { padding: 1.2rem 0 3rem; }
+
+    article {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.5vw, 1.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      color: var(--accent);
+      margin: 1.2rem 0 0.5rem;
+      border-bottom: 2px solid var(--accent-2);
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      color: var(--text);
+      margin: 1.5rem 0 0.4rem;
+      font-weight: 700;
+    }
+
+    p, li { color: var(--muted); font-size: 1rem; }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-left: 3px solid var(--accent-2);
+      background: linear-gradient(135deg, rgba(47,111,159,0.08), rgba(89,169,216,0.12));
+      border-radius: 0 12px 12px 0;
+    }
+    .note p:last-child { margin-bottom: 0; }
+
+    .figure { margin: 1rem 0 1.2rem; }
+    .figure img {
+      width: 100%; height: auto; display: block;
+      border-radius: 16px; border: 1px solid var(--line);
+    }
+    .figure .caption {
+      margin-top: 0.45rem; font-size: 0.85rem;
+      color: var(--muted); text-align: center;
+    }
+    /* スマートフォンの画面キャプチャは縦長なので幅を抑える */
+    .figure.phone { max-width: 340px; margin-left: auto; margin-right: auto; }
+
+    .figures { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.2rem 0; }
+    .fig-card {
+      flex: 1 1 200px;
+      background: linear-gradient(135deg, rgba(47,111,159,0.07), rgba(89,169,216,0.11));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+    }
+    .fig-num {
+      display: block; font-size: 2rem; font-weight: 800;
+      line-height: 1.2; color: var(--accent);
+    }
+    .fig-label {
+      display: block; font-size: 0.85rem; color: var(--muted);
+      line-height: 1.6; margin-top: 0.3rem;
+    }
+
+    .table-wrap { overflow-x: auto; margin: 1rem 0 1.2rem; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.94rem; background: #fff;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    caption {
+      text-align: left; font-size: 0.88rem; font-weight: 700;
+      color: var(--accent); padding-bottom: 0.4rem;
+    }
+    th, td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--muted); }
+    thead th { background: rgba(89,169,216,0.14); color: var(--text); font-size: 0.88rem; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .compare {
+      margin: 1.2rem 0;
+      padding: 1.1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(47,111,159,0.10), rgba(89,169,216,0.06));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .compare h3 { margin-top: 0; color: var(--accent); }
+    .compare p:last-child { margin-bottom: 0; }
+
+    .prompt {
+      margin: 0.9rem 0;
+      padding: 0.8rem 1.1rem;
+      background: #fff;
+      border-left: 3px solid var(--accent-2);
+      border-radius: 0 12px 12px 0;
+      font-family: "Yu Gothic", "Hiragino Sans", sans-serif;
+    }
+    .prompt p { margin: 0; color: var(--text); }
+
+    .related { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+    .related h2 { margin-top: 0; }
+    .related ul { padding-left: 1.2rem; }
+    .related a { color: var(--accent); text-decoration: underline; }
+
+    footer { padding-top: 1rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 700px) {
+      .header { padding: 1.8rem 0 2.2rem; }
+      .fig-num { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <p class="back-link"><a href="../index.html">← ホームに戻る</a></p>
+      <div class="eyebrow">校務DX実践02</div>
+      <h1>注文システムを作り直した。<br>213件の運用と、エージェント開発の実際</h1>
+      <p class="lead">操作性、残り個数、送信前の確認、そして取り消し</p>
+      <p class="status-badge">✅ 運用を終えました</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+
+      <p>昨年つくったPTA主催の昼食注文システムを、今年作り直しました。総合文化発表会に向けたもので、受付期間を終えた時点で注文は213件、総額は25万円を超えています。</p>
+      <p>この記事では、何を変えたのか、なぜ変えたのか、そして運用してみてどうだったかを記録します。あわせて、昨年とは作り方そのものが変わった話も書きます。結論から言うと、昨年2日かかった開発が、今年は1時間かかりませんでした。</p>
+
+      <h2>作り直した4つの理由</h2>
+
+      <p>昨年のシステムも、きちんと動いてはいました。それでも作り直したのは、運用してみて見えてきたことが4つあったからです。</p>
+
+      <h3>1　注文する側の操作性を上げたかった</h3>
+      <p>これが第一の動機でした。昨年のものはGoogleフォームより格段によくなったとはいえ、スマートフォンで見たときの読みやすさ、押しやすさには、まだ改善の余地がありました。保護者の方が片手で操作することを考えると、画面の見やすさは機能そのものです。</p>
+
+      <h3>2　個数制限のある商品があった</h3>
+      <p>パンやピザなど、用意できる数に限りのある商品があります。昨年はその情報が注文画面に出ていなかったため、注文を受けてから調整する場面が生じました。今年は商品ごとに「残り◯個」を表示し、その場で分かるようにしました。</p>
+
+      <div class="figure">
+        <img src="../images/bunkasai-order-01-stock.jpg" alt="注文画面の商品一覧。パンの各商品に価格と「残り10個」「残り6個」という表示が出ている" />
+        <div class="caption">数量に限りのある商品には、注文画面に残りの数を表示した。</div>
+      </div>
+
+      <h3>3　入力ミスを減らしたかった</h3>
+      <p>控えのメールを送るしくみにしているので、メールアドレスが正しく入力されていないと控えが届きません。そこで注文を確定する前に、入力されたアドレスを画面に表示して確認してもらい、さらに同意のチェックボックスを置きました。送信までにワンクッション入れた形です。</p>
+
+      <div class="figure phone">
+        <img src="../images/bunkasai-order-02-confirm.jpg" alt="注文画面の下部。控えの送り先として入力されたメールアドレスが表示され、その下に同意のチェックボックス、画面下端に合計金額と注文ボタンが並んでいる" />
+        <div class="caption">注文ボタンの手前で、控えの送り先と同意をもう一度確かめてもらう。</div>
+      </div>
+
+      <h3>4　注文の取り消しに手作業で対応していた</h3>
+      <p>昨年、注文を取り消したいという連絡があり、スプレッドシートを直接開いて該当する行を手で消しました。件数が少なかったので対応できましたが、集計値との整合を自分で確認しなければならず、気を遣う作業でした。</p>
+      <p>今年は、受付番号を指定するとその注文だけを自動で取り消すしくみにしました。この受付番号は、注文が完了した時点で画面と控えのメールの両方に出ます。取り消しの連絡をいただくときも、この番号を伝えてもらうだけで済みます。</p>
+
+      <div class="figure phone">
+        <img src="../images/bunkasai-order-03-receipt.jpg" alt="注文完了画面。受付番号0003が大きく表示され、その下に注文した商品と数量、価格、合計金額が並んでいる" />
+        <div class="caption">注文が完了すると受付番号が発行される。取り消しは、この番号を指定して行う。</div>
+      </div>
+
+      <h2>4つの改良</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>今回入れた機能</caption>
+          <thead>
+            <tr><th>改良した点</th><th>解決したかったこと</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>画面の見やすさ・操作性の向上</td><td>スマートフォンでの注文のしやすさ</td></tr>
+            <tr><td>商品ごとの残り個数表示</td><td>数量に限りのある商品の調整</td></tr>
+            <tr><td>送信前のアドレス確認＋同意チェック</td><td>控えが届かない事態の防止</td></tr>
+            <tr><td>受付番号を指定しての注文取り消し</td><td>手作業での行削除と整合確認</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>取り消し機能については、作ってもらったものに自分で手を入れました。受付番号を指定して注文を取り消したとき、注文の行が消えるだけでは足りません。商品ごとの必要数と、金額の集計も同時に更新されなければ、発注書の数字が合わなくなります。そこまで連動するように調整しました。</p>
+
+      <div class="figure">
+        <img src="../images/bunkasai-order-04-summary.jpg" alt="注文状況の集計画面。注文件数213件、総額255,460円、集金済み206/213件と表示され、その下に商品別の必要数と金額、学年別の集計が並んでいる" />
+        <div class="caption">集計シートは自動更新。注文が入るたびに、商品別の発注数と学年別の集計が組み上がっていく。</div>
+      </div>
+
+      <p>集計シートは注文が入るたびに自動で更新されます。商品別の必要数がそのまま発注書になり、学年別の点数と金額も同時に出ます。集金については、受け渡しの際に「済」と入力すると件数に反映されるようにしました。注文を受けて終わりではなく、集金と受け渡しまでが実務だからです。</p>
+
+      <h2>2日が、1時間になった</h2>
+
+      <div class="compare">
+        <h3>昨年の作り方</h3>
+        <p>生成AIにGASのコードを出してもらい、それをコピーしてスクリプトエディタに貼り付ける。動かしてみて、エラーが出たらその箇所をまた相談する。これを何度も繰り返して、形になるまで2日ほどかかりました。</p>
+      </div>
+
+      <p>今年は、Claude Codeのエージェントに作らせました。やりたいことを伝えると、ファイルを直接読んで、必要な箇所を自分で書き換えてくれます。コピーと貼り付けの往復がなくなっただけで、流れがまるで変わりました。実装まで1時間かかっていません。</p>
+
+      <p>時間だけの話ではありません。エラーが出るたびに「どこを直せばいいのか」を探す作業がなくなったことで、精神的な負担がかなり減りました。昨年は、動かないコードを前にして気力が削られる時間が確かにありました。</p>
+
+      <h3>どう指示したか</h3>
+
+      <p>特別な書き方はしていません。たとえば取り消し機能については、こう伝えただけです。</p>
+
+      <div class="prompt">
+        <p>注文番号を指定したら取り消せるようにして</p>
+      </div>
+
+      <p>この一文で、機能そのものは実現しました。そのうえで、先に書いた「商品数と金額も連動して更新されるように」という微調整を加えています。</p>
+
+      <div class="note">
+        <p>ここで大事だと思っているのは、<strong>最終的にこの機能でよしとする判断は、自分がしている</strong>ということです。エージェントは実装してくれますが、「集計の整合が取れていないと発注書が狂う」と気づくのは、その業務を知っている人間の側です。作る速さが上がったぶん、何を作るべきかを判断する責任は、むしろ重くなったように感じます。</p>
+      </div>
+
+      <h2>213件を回してみて</h2>
+
+      <div class="figures">
+        <div class="fig-card">
+          <span class="fig-num">213</span>
+          <span class="fig-label">受け付けた注文の件数</span>
+        </div>
+        <div class="fig-card">
+          <span class="fig-num">25万円超</span>
+          <span class="fig-label">注文の総額</span>
+        </div>
+        <div class="fig-card">
+          <span class="fig-num">2件</span>
+          <span class="fig-label">取り消しが必要になった注文</span>
+        </div>
+      </div>
+
+      <p>受付期間を通して、システム上のトラブルはありませんでした。残り個数の表示も意図したとおりに機能しました。</p>
+
+      <p>取り消しが必要になったのは2件です。この2件は、性質が違いました。</p>
+
+      <p><strong>1件目は、保護者の方から「注文を変更したい」という連絡</strong>があったものです。これは入力ミスではありません。一度送信したあとで考えが変わるというのは、どんな確認画面を入れても起こります。</p>
+
+      <p><strong>2件目は、集計の際に注文数と金額が合わないことに気づいた</strong>ものです。こちらは確認画面をすり抜けたケースになります。</p>
+
+      <p>どちらも、受付番号を指定して取り消し、あらためて入力し直していただきました。手作業でスプレッドシートを開くことはありませんでした。</p>
+
+      <div class="figure">
+        <img src="../images/bunkasai-order-05-closed.jpg" alt="受付終了後の画面。受付は10月6日17時に終了しましたと表示されている" />
+        <div class="caption">受付期間を過ぎると、注文画面は自動的に終了の案内に切り替わる。</div>
+      </div>
+
+      <h2>確認画面は、ゼロにはしない</h2>
+
+      <p>今回いちばん腑に落ちたのは、このことでした。</p>
+
+      <p>送信前にメールアドレスを表示し、同意のチェックまで求める。それだけ手当てをしても、213件のうち2件は取り消しが必要になりました。しかもその1件は、確認画面では防ぎようのない「気が変わった」というものです。</p>
+
+      <p>つまり、入り口の確認を厚くすることと、出口の取り消しを用意することは、どちらか一方では足りません。<strong>確認画面はミスを減らしますが、ゼロにはしない。だからこそ、取り消せるしくみが要る。</strong>これは実際に運用してみるまで、頭では分かっていても実感としては持てなかったことです。</p>
+
+      <p>注文システムを作るとき、取り消し機能は後回しにされがちです。正常に注文が通る道筋を作るだけで精一杯になるからです。けれど必ず必要になります。もし同じようなものを作る方がいれば、最初から見込んでおくことをおすすめします。</p>
+
+      <h2>まとめ</h2>
+
+      <p>作る速さは、この1年で明らかに変わりました。2日が1時間になるというのは、「少し楽になった」という程度の変化ではありません。思いついたことを、その日のうちに試せるということです。</p>
+
+      <p>一方で、変わらなかったこともあります。何が必要かを決めるのは、やはりその業務を知っている人間です。残り個数を出そうと考えたのも、集計の整合に気づいたのも、取り消しが要ると分かっていたのも、昨年の運用で困った経験があったからでした。</p>
+
+      <p>道具が速くなったぶん、現場で困った経験の値打ちが上がったのだと思います。</p>
+
+      <div class="related">
+        <h2>関連する実践</h2>
+        <ul>
+          <li><a href="./komu-dx-automation.html">PTA活動を、もっとラクに。GASではじめる校務の自動化</a> — このシステムの第1世代をつくった記録</li>
+          <li><a href="./genai-training.html">全校生徒に生成AIを教えた110分</a> — 生徒とともに生成AIを学んだ記録</li>
+        </ul>
+      </div>
+
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">まさとなり教頭</div>
+  </footer>
+</body>
+</html>

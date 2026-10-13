@@ -99,6 +99,18 @@
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(22, 50, 79, 0.10);
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin: 0 0 0.35rem;
+      color: var(--text);
     }
 
     .card p {
@@ -127,6 +139,12 @@
   </header>
 
   <main class="container">
+    <section>
+      <a href="../jissen/bunkasai-order-system.html" class="card" style="display:block;">
+        <h2>注文システムを作り直した。213件の運用と、エージェント開発の実際</h2>
+        <p>操作性、残り個数、送信前の確認、取り消し。4つの改良と、2日かかった開発が1時間になった記録です。</p>
+      </a>
+    </section>
     <section>
       <a href="../jissen/komu-dx-automation.html" class="card" style="display:block;">
         <h2>PTA活動を、もっとラクに。GASではじめる校務の自動化</h2>
